@@ -49,8 +49,6 @@ class Chemistry::Stoichiometry::ResourceAccess {
         #-----------------------------------------------------------
         my $fileName = %?RESOURCES{'ElementData.csv'};
 
-        say $fileName;
-
         my $csv = Text::CSV.new;
         @elementData = $csv.csv(in => $fileName.Str, headers => 'auto');
 

@@ -15,6 +15,7 @@
     "Chemistry::Stoichiometry::Grammar": "lib/Chemistry/Stoichiometry/Grammar.rakumod",
     "Chemistry::Stoichiometry::Grammar::ChemicalElement": "lib/Chemistry/Stoichiometry/Grammar/ChemicalElement.rakumod",
     "Chemistry::Stoichiometry::Grammar::ChemicalEquation": "lib/Chemistry/Stoichiometry/Grammar/ChemicalEquation.rakumod",
+    "Chemistry::Stoichiometry::Actions::MolecularMass": "lib/Chemistry/Stoichiometry/Actions/MolecularMass.rakumod",
     "Chemistry::Stoichiometry::Actions::WL::System": "lib/Chemistry/Stoichiometry/Actions/WL/System.rakumod"
   },
   "depends": [

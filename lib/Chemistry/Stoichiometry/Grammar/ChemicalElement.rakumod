@@ -1,7 +1,7 @@
 
 role Chemistry::Stoichiometry::Grammar::ChemicalElement {
 
-    regex chemical-element {
+    token chemical-element {
         <Ac-stoichiometry>    |
         <Ag-stoichiometry>    |
         <Al-stoichiometry>    |

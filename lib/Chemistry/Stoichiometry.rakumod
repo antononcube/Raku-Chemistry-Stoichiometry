@@ -15,6 +15,7 @@ interpretation of stoichiometry formulas and equations.
 unit module Chemistry::Stoichiometry;
 
 use Chemistry::Stoichiometry::Grammar;
+use Chemistry::Stoichiometry::Actions::MolecularMass;
 use Chemistry::Stoichiometry::Actions::WL::System;
 
 #-----------------------------------------------------------
@@ -39,6 +40,11 @@ sub has-semicolon (Str $word) {
 }
 
 #-----------------------------------------------------------
+sub molecular-mass(Str $spec ) is export {
+    Chemistry::Stoichiometry::Grammar.parse($spec, actions => Chemistry::Stoichiometry::Actions::MolecularMass).made;
+}
+
+#-----------------------------------------------------------
 proto ToStoichiometryCode(Str $command, Str $target = 'WL' ) is export {*}
 
 multi ToStoichiometryCode ( Str $command where not has-semicolon($command), Str $target = 'WL' ) {
@@ -51,7 +57,6 @@ multi ToStoichiometryCode ( Str $command where not has-semicolon($command), Str 
 }
 
 multi ToStoichiometryCode ( Str $command where has-semicolon($command), Str $target = 'WL' ) {
-
 
     die 'Unknown target.' unless %targetToAction{$target}:exists;
 
