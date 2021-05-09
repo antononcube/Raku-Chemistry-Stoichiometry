@@ -96,8 +96,12 @@ class Chemistry::Stoichiometry::ResourceAccess {
     ##========================================================
     ## Access
     ##========================================================
+    method get-number-of-elements() {
+        @elementData.elems
+    }
+
     # If a dictionary of dictionaries is used these can be refactored.
-    multi method get-standard-name(Str:D $spec --> Str) {
+    multi method get-standard-name(Str:D $spec) {
         if %abbrToStandardName{$spec}:exists {
             %abbrToStandardName{$spec}
         } else {
@@ -106,9 +110,9 @@ class Chemistry::Stoichiometry::ResourceAccess {
                 $res = %langNames{$l}{$spec.lc};
                 last if $res.defined;
             }
-            die "Unknown chemical element name or abbreviation: $spec" unless $res.defined;
+            warn "Unknown chemical element name or abbreviation: $spec" unless $res.defined;
             $res
-        };
+        }
     }
 
     multi method get-standard-name(Int:D $spec --> Str) {
@@ -117,13 +121,33 @@ class Chemistry::Stoichiometry::ResourceAccess {
     }
 
     multi method get-atomic-weight(Str:D $spec --> Num) {
-        if %standardNameToAtomicWeight{$spec}:exists { %standardNameToAtomicWeight{$spec} }
-        elsif %abbrToStandardName{$spec}:exists { %standardNameToAtomicWeight{%abbrToStandardName{$spec}}}
-        else { die "Unknown chemical element standard name or abbreviation: $spec." };
+        if %standardNameToAtomicWeight{$spec}:exists {
+            %standardNameToAtomicWeight{$spec}
+        } else {
+            my $stdName = self.get-standard-name($spec);
+            with $stdName {
+                %standardNameToAtomicWeight{$stdName}
+            } else {
+                Nil
+            }
+        }
     }
 
     multi method get-atomic-weight(Int:D $spec --> Num) {
         die "Unknown atomic number: $spec" unless %atomicNumberToStandardName{$spec}:exists;
         %standardNameToAtomicWeight{%atomicNumberToStandardName{$spec}};
+    }
+
+    method get-atomic-number(Str:D $spec --> Int) {
+        if %standardNameToAtomicNumber{$spec}:exists {
+            %standardNameToAtomicNumber{$spec}
+        } else {
+            my $stdName = self.get-standard-name($spec);
+            with $stdName {
+                %standardNameToAtomicNumber{$stdName}
+            } else {
+                Nil
+            }
+        }
     }
 }

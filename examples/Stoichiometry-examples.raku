@@ -2,8 +2,12 @@ use lib './lib';
 use lib '.';
 use Chemistry::Stoichiometry;
 use Chemistry::Stoichiometry::Actions::MolecularMass;
+use Chemistry::Stoichiometry::Actions::Matrix;
 
 my $pCOMMAND = Chemistry::Stoichiometry::Grammar;
+
+say 'C2H5OH+O2=H2O+CO2 : ', $pCOMMAND.parse('C2H5OH+O2=H2O+CO2', actions => Chemistry::Stoichiometry::Actions::Matrix).made;
+
 
 #say $pCOMMAND.parse('C2H5OH');
 #say 'C2H5OH : ', $pCOMMAND.parse('C2H5OH', actions => Chemistry::Stoichiometry::Actions::MolecularMass).made;
@@ -16,20 +20,20 @@ my $pCOMMAND = Chemistry::Stoichiometry::Grammar;
 #say $pCOMMAND.parse('K4Fe(CN)6 + H2SO4 + H2O = K2SO4 + FeSO4 + (NH4)2SO4 + CO');
 
 
-say "=" x 60;
-
-my @testCommands = <Cl SO42 Al2(CO3)3 (Cl4NH3)3(Cl6)2, C2H5OH+O2=H2O+CO2>;
-
-my @targets = ('WL-System');
-
-for @testCommands -> $c {
-    say "-" x 30;
-    say $c;
-    my $start = now;
-    my $res = molecular-mass($c);
-    say "time:", now - $start;
-    say $res;
-}
+#say "=" x 60;
+#
+#my @testCommands = <Cl SO42 Al2(CO3)3 (Cl4NH3)3(Cl6)2, C2H5OH+O2=H2O+CO2>;
+#
+#my @targets = ('WL-System');
+#
+#for @testCommands -> $c {
+#    say "-" x 30;
+#    say $c;
+#    my $start = now;
+#    my $res = molecular-mass($c);
+#    say "time:", now - $start;
+#    say $res;
+#}
 
 
 #my @targets = ('WL-System');

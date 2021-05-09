@@ -15,11 +15,13 @@
     "Chemistry::Stoichiometry::Grammar": "lib/Chemistry/Stoichiometry/Grammar.rakumod",
     "Chemistry::Stoichiometry::Grammar::ChemicalElement": "lib/Chemistry/Stoichiometry/Grammar/ChemicalElement.rakumod",
     "Chemistry::Stoichiometry::Grammar::ChemicalEquation": "lib/Chemistry/Stoichiometry/Grammar/ChemicalEquation.rakumod",
+    "Chemistry::Stoichiometry::Actions::Matrix": "lib/Chemistry/Stoichiometry/Actions/Matrix.rakumod",
     "Chemistry::Stoichiometry::Actions::MolecularMass": "lib/Chemistry/Stoichiometry/Actions/MolecularMass.rakumod",
     "Chemistry::Stoichiometry::Actions::WL::System": "lib/Chemistry/Stoichiometry/Actions/WL/System.rakumod"
   },
   "depends": [
-    "Text::CSV"
+    "Text::CSV",
+    "Math::Matrix"
   ],
   "build-depends": [],
   "test-depends": [],
