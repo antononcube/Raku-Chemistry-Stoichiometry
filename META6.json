@@ -1,0 +1,39 @@
+{
+  "perl": "6.d",
+  "name": "Chemistry::Stoichiometry",
+  "api": "1",
+  "auth": "github:antononcube",
+  "version": "0.1.0",
+  "description": "Package for Stoichiometry procedures: chemical formula parsing, chemical equations balancing. Contains relevant chemical element data",
+  "authors": [
+    "Anton Antonov"
+  ],
+  "license": "Artistic-2.0",
+  "provides": {
+    "Chemistry::Stoichiometry": "lib/Chemistry/Stoichiometry.rakumod",
+    "Chemistry::Stoichiometry::ResourceAccess": "lib/Chemistry/Stoichiometry/ResourceAccess.rakumod",
+    "Chemistry::Stoichiometry::Grammar": "lib/Chemistry/Stoichiometry/Grammar.rakumod",
+    "Chemistry::Stoichiometry::Grammar::ChemicalElement": "lib/Chemistry/Stoichiometry/Grammar/ChemicalElement.rakumod",
+    "Chemistry::Stoichiometry::Grammar::ChemicalEquation": "lib/Chemistry/Stoichiometry/Grammar/ChemicalEquation.rakumod",
+    "Chemistry::Stoichiometry::Actions::WL::System": "lib/Chemistry/Stoichiometry/Actions/WL/System.rakumod"
+  },
+  "depends": [],
+  "build-depends": [],
+  "test-depends": [],
+  "resources": [
+    "ElementData.csv"
+  ],
+  "tags": [
+    "chemistry",
+    "stoichiometry",
+    "chemical",
+    "balance",
+    "element",
+    "reaction",
+    "mechanism",
+    "entity",
+    "parser",
+    "interpreter"
+  ],
+  "source-url": "https://github.com/antononcube/Raku-Chemistry-Stoichiometry.git"
+}
