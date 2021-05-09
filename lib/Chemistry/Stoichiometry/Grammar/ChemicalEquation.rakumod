@@ -21,7 +21,7 @@ role Chemistry::Stoichiometry::Grammar::ChemicalEquation {
     # General tokens
     token bond-symbol  { '-' | '=' | '#' | '$' | '/' | '\\' }
     token dot-symbol   { '.' }
-    token hv-sunlight  { 'hν' | 'hv' }
+    token hv-sunlight  { 'hν' | 'hv' | 'hf' }
     token number       { \d+ }
     token yield-symbol { '->' | '==' | '=' | '→' }
 
