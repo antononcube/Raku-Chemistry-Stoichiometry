@@ -1,16 +1,17 @@
-use DSL::Shared::Utilities::FuzzyMatching;
-use DSL::Shared::Utilities::MetaSpecsProcessing;
+
+use Text::CSV;
 
 class Chemistry::Stoichiometry::ResourceAccess {
     ##========================================================
     ## Data
     ##========================================================
-    my Hash %nameToEntityID{Str};
-    my Hash %adjectiveToEntityID{Str};
-    my Set %knownNames{Str};
-    my Set %knownNameWords{Str};
-    my Set %knownAdjectives{Str};
-    my Set %knownAdjectiveWords{Str};
+    my @elementData;
+    my Num %standardNameToAtomicWeight{Str};
+    my Str %abbrToStandardName{Str};
+    my Str %standardNameToAbbr{Str};
+    my Int %standardNameToAtomicNumber{Str};
+    my Str %atomicNumberToStandardName{Int};
+    my Hash %langNames{Str};
 
     ##========================================================
     ## BUILD
@@ -46,35 +47,49 @@ class Chemistry::Stoichiometry::ResourceAccess {
         #say "Number of calls to .make $numberOfMakeCalls";
 
         #-----------------------------------------------------------
-        for <Country Region> -> $fn {
-            my $fileName = %?RESOURCES{$fn ~ 'NameToEntityID_EN.csv'};
-            my Str @nameIDPairs = $fileName.lines;
+        my $fileName = %?RESOURCES{'ElementData.csv'};
 
-            my %nameRules = @nameIDPairs.map({ $_.split(',') }).flat;
-            %nameRules = %nameRules.keys.map(*.lc) Z=> %nameRules.values;
+        say $fileName;
 
-            %nameToEntityID.push( $fn => %nameRules );
+        my $csv = Text::CSV.new;
+        @elementData = $csv.csv(in => $fileName.Str, headers => 'auto');
 
-            %knownNames.push( $fn => Set(%nameRules) );
+        # Verify expectations
+        my @expectedColumnNames = <StandardName Name Abbreviation AtomicNumber AtomicWeight Block Group Period Series>;
 
-            %knownNameWords.push( $fn => Set(%nameRules.keys.map({ $_.split(/h+/) }).flat) );
+        if (@elementData[0].keys (&) @expectedColumnNames).elems < @expectedColumnNames.elems {
+            die "The CSV file $fileName does not have the expected column names: {@expectedColumnNames.join(', ')}.";
         }
+
+        # Create dictionaries
+        # Maybe it is better to have a dictionary of dictionaries.
+        %standardNameToAtomicWeight = @elementData.map( { $_<StandardName>     => $_<AtomicWeight>.Num } );
+        %standardNameToAbbr =         @elementData.map( { $_<StandardName>     => $_<Abbreviation> } );
+        %abbrToStandardName =         @elementData.map( { $_<Abbreviation>     => $_<StandardName> } );
+        %standardNameToAtomicNumber = @elementData.map( { $_<StandardName>     => $_<AtomicNumber>.Int } );
+        %atomicNumberToStandardName = @elementData.map( { $_<AtomicNumber>.Int => $_<StandardName> } );
 
         #-----------------------------------------------------------
-        for <Country Region> -> $fn {
-            my $fileName = %?RESOURCES{$fn ~ 'AdjectiveToEntityID_EN.csv'};
-            my Str @adjNamePairs = $fileName.lines;
+        @expectedColumnNames = <Index Name Abbreviation StandardName>;
 
-            my %adjRules = @adjNamePairs.map({ $_.split(',') }).flat;
+        # The language list has to be derived automatically instead specified manually.
+        for <Bulgarian Japanese Russian> -> $fn {
+            my $fileName = %?RESOURCES{'ElementNames_' ~ $fn ~ '.csv'};
+            my Str @nameIDPairs = $fileName.lines;
 
-            %adjRules = %adjRules.keys.map(*.lc) Z=> %adjRules.values;
+            my $csv = Text::CSV.new;
+            my @elementDataLocalized = $csv.csv(in => $fileName.Str, headers => 'auto');
 
-            %adjectiveToEntityID.push( $fn => %adjRules );
+            if (@elementDataLocalized[0].keys (&) @expectedColumnNames).elems < @expectedColumnNames.elems {
+                die "The $fn CSV file $fileName does not have the expected column names: {@expectedColumnNames.join(', ')}.";
+            }
 
-            %knownAdjectives.push( $fn => Set(%adjRules) );
-
-            %knownAdjectiveWords.push( $fn => Set(%adjRules.keys.map({ $_.split(/h+/) }).flat) );
+            my %nameRules = @elementDataLocalized.map({ $_<Name>.lc => $_<StandardName> });
+            %langNames = %langNames.push( $fn => %nameRules );
         }
+
+        # For completeness, add English
+        %langNames.push( "English" => Hash(@elementData.map({ $_<Name>.lc  => $_<StandardName> })) );
 
         #-----------------------------------------------------------
         self
@@ -83,40 +98,34 @@ class Chemistry::Stoichiometry::ResourceAccess {
     ##========================================================
     ## Access
     ##========================================================
-    method known-name-word(Str:D $class, Str:D $word, Bool :$bool = True, Bool :$warn = True) {
-        known-string(%knownNameWords{$class}, $word, :$bool, :$warn)
-    }
-
-    #-----------------------------------------------------------
-    method known-name(Str:D $class, Str:D $phrase, Bool :$bool = True, Bool :$warn = True) {
-        ## If the name candidate $phrase is a known adjective, then return False/Nil.
-        ##if $phrase (elem) %knownAdjectives{$class} {
-        ##    $bool ?? False !! Nil
-        ##} else {
-        known-phrase(%knownNames{$class}, %knownNameWords{$class}, $phrase, :$bool, :$warn)
-        ##}
-    }
-
-    #-----------------------------------------------------------
-    method known-adjective(Str:D $class, Str:D $phrase, Bool :$bool = True, Bool :$warn = True) {
-        ## If the adjective candidate $phrase is a known name, then return False/Nil.
-        if $phrase (elem) %knownNames{$class} {
-            $bool ?? False !! Nil
+    # If a dictionary of dictionaries is used these can be refactored.
+    multi method get-standard-name(Str:D $spec --> Str) {
+        if %abbrToStandardName{$spec}:exists {
+            %abbrToStandardName{$spec}
         } else {
-            known-phrase(%knownAdjectives{$class}, %knownAdjectiveWords{$class}, $phrase, :$bool, :$warn)
-        }
+            my $res = Nil;
+            for %langNames.keys -> $l {
+                $res = %langNames{$l}{$spec.lc};
+                last if $res.defined;
+            }
+            die "Unknown chemical element name or abbreviation: $spec" unless $res.defined;
+            $res
+        };
     }
 
-    #-----------------------------------------------------------
-    method name-to-entity-id(Str:D $class, Str:D $phrase, Bool :$warn = False) {
-        my $name = self.known-name($class, $phrase.lc, :!bool, :$warn);
-        $name ?? %nameToEntityID{$class}{$name} !! Nil
+    multi method get-standard-name(Int:D $spec --> Str) {
+        die "Unknown atomic number: $spec" unless %atomicNumberToStandardName{$spec}:exists;
+        %atomicNumberToStandardName{$spec};
     }
 
-    #-----------------------------------------------------------
-    method adjective-to-entity-id(Str:D $class, Str:D $phrase, Bool :$warn = False) {
-        my $adj = self.known-adjective($class, $phrase.lc, :!bool, :$warn);
-        $adj ?? %adjectiveToEntityID{$class}{$adj} !! Nil
+    multi method get-atomic-weight(Str:D $spec --> Num) {
+        if %standardNameToAtomicWeight{$spec}:exists { %standardNameToAtomicWeight{$spec} }
+        elsif %abbrToStandardName{$spec}:exists { %standardNameToAtomicWeight{%abbrToStandardName{$spec}}}
+        else { die "Unknown chemical element standard name or abbreviation: $spec." };
     }
 
+    multi method get-atomic-weight(Int:D $spec --> Num) {
+        die "Unknown atomic number: $spec" unless %atomicNumberToStandardName{$spec}:exists;
+        %standardNameToAtomicWeight{%atomicNumberToStandardName{$spec}};
+    }
 }

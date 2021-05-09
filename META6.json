@@ -17,11 +17,16 @@
     "Chemistry::Stoichiometry::Grammar::ChemicalEquation": "lib/Chemistry/Stoichiometry/Grammar/ChemicalEquation.rakumod",
     "Chemistry::Stoichiometry::Actions::WL::System": "lib/Chemistry/Stoichiometry/Actions/WL/System.rakumod"
   },
-  "depends": [],
+  "depends": [
+    "Text::CSV"
+  ],
   "build-depends": [],
   "test-depends": [],
   "resources": [
-    "ElementData.csv"
+    "ElementData.csv",
+    "ElementNames_Bulgarian.csv",
+    "ElementNames_Japanese.csv",
+    "ElementNames_Russian.csv"
   ],
   "tags": [
     "chemistry",
