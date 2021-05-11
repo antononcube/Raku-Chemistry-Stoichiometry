@@ -6,7 +6,7 @@ use Math::Matrix;
 
 my Chemistry::Stoichiometry::ResourceAccess $resources.instance;
 
-class Chemistry::Stoichiometry::Actions::Matrix {
+class Chemistry::Stoichiometry::Actions::EquationMatrix {
 
     method TOP($/) {
         make $/.values[0].made;
@@ -16,7 +16,19 @@ class Chemistry::Stoichiometry::Actions::Matrix {
     ## Equation
     ##========================================================
     method chemical-equation($/) {
-        make { LHS => $<lhs>.made, RHS => $<rhs>.made };
+        my %eqs = %(LHS => $<lhs>.made, RHS => $<rhs>.made);
+        my @eqElements = %eqs.values.map({ $_.values.map({ $_.keys }) }).flat.unique.sort;
+        my %eqElementToIndex = @eqElements Z=> 0..@eqElements.elems;
+        my @eqMats =
+                do for %eqs.kv -> $side, %mix {
+                    my @vecs = %mix.map({ self.make-vector($_.value, %eqElementToIndex) });
+                    my Math::Matrix $mat;
+                    $mat = @vecs[0] ;
+                    for @vecs[1..^*] -> $v { $mat = $mat.splice-columns(-1, 0, $v) };
+                    $mat
+                }
+        my Math::Matrix $mat = @eqMats[0].splice-columns( -1, 0, @eqMats[1] * (-1) );
+        make {Equations => %eqs, Matrix => $mat, ElementToIndex => %eqElementToIndex};
     }
 
     method hv-sunlight($/) {
@@ -28,8 +40,9 @@ class Chemistry::Stoichiometry::Actions::Matrix {
     }
 
     method mixture($/) {
-        my Int $k = 1;
-        my %res = do for $<mixture-term>>>.made -> %h { $k++ => %h  };
+        #my Int $k = 1;
+        #my %res = do for $<mixture-term>>>.made -> %h { $k++ => %h };
+        my %res = $<mixture-term> Z=> $<mixture-term>>>.made;
         make %res;
     }
 
@@ -69,7 +82,21 @@ class Chemistry::Stoichiometry::Actions::Matrix {
     ##========================================================
     ## Basis vectors
     ##========================================================
-    method make-basis-vector(Str:D $elem) {
+    method make-vector(%elemToCount, %elemToIndex) {
+        my $res = Math::Matrix.new-zero(%elemToIndex.elems, 1);
+        for %elemToCount.kv -> $elem, $count {
+            $res[%elemToIndex{$elem}][0] = Rat($count);
+        }
+        $res
+    }
+
+    multi method make-basis-vector(Int:D $i where $i >= 0, Int:D $n where $n > 0) {
+        my $res = Math::Matrix.new-zero($n, 1);
+        $res[$i][0] = 1;
+        $res
+    }
+
+    multi method make-basis-vector(Str:D $elem) {
         my $res = Math::Matrix.new-zero($resources.get-number-of-elements, 1);
         $res[$resources.get-atomic-number($elem)-1][0] = 1;
         $res

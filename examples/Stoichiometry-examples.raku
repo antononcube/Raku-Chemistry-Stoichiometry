@@ -2,11 +2,15 @@ use lib './lib';
 use lib '.';
 use Chemistry::Stoichiometry;
 use Chemistry::Stoichiometry::Actions::MolecularMass;
-use Chemistry::Stoichiometry::Actions::Matrix;
+use Chemistry::Stoichiometry::Actions::EquationMatrix;
+use Chemistry::Stoichiometry::Actions::EquationBalance;
 
 my $pCOMMAND = Chemistry::Stoichiometry::Grammar;
 
-say 'C2H5OH+O2=H2O+CO2 : ', $pCOMMAND.parse('C2H5OH+O2=H2O+CO2', actions => Chemistry::Stoichiometry::Actions::Matrix).made;
+#say 'C2H5OH+O2=H2O+CO2 : ', $pCOMMAND.parse('C2H5OH+O2=H2O+CO2', actions => Chemistry::Stoichiometry::Actions::EquationMatrix).made;
+#say 'C2H5OH+O2=H2O+CO2 : ', $pCOMMAND.parse('C2H5OH+O2=H2O+CO2', actions => Chemistry::Stoichiometry::Actions::EquationBalance).made;
+#say 'H+O=H2O : ', $pCOMMAND.parse('H+O=H2O', actions => Chemistry::Stoichiometry::Actions::EquationBalance).made;
+say 'K4Fe(CN)6 + H2SO4 + H2O = K2SO4 + FeSO4 + (NH4)2SO4 + CO : ', $pCOMMAND.parse('K4Fe(CN)6 + H2SO4 + H2O = K2SO4 + FeSO4 + (NH4)2SO4 + CO', actions => Chemistry::Stoichiometry::Actions::EquationBalance).made;
 
 
 #say $pCOMMAND.parse('C2H5OH');
