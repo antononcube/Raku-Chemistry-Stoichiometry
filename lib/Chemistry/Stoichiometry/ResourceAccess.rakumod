@@ -6,6 +6,7 @@ class Chemistry::Stoichiometry::ResourceAccess {
     ## Data
     ##========================================================
     my @elementData;
+    my %elementData;
     my Num %standardNameToAtomicWeight{Str};
     my Str %abbrToStandardName{Str};
     my Str %standardNameToAbbr{Str};
@@ -59,6 +60,9 @@ class Chemistry::Stoichiometry::ResourceAccess {
             die "The CSV file $fileName does not have the expected column names: {@expectedColumnNames.join(', ')}.";
         }
 
+        # Make element data dictionary
+        %elementData = @elementData.map({ $_<StandardName>.lc => $_ });
+
         # Create dictionaries
         # Maybe it is better to have a dictionary of dictionaries.
         %standardNameToAtomicWeight = @elementData.map( { $_<StandardName>     => $_<AtomicWeight>.Num } );
@@ -96,6 +100,17 @@ class Chemistry::Stoichiometry::ResourceAccess {
     ##========================================================
     ## Access
     ##========================================================
+    method get-element-data($spec) {
+
+        my $stdName = self.get-standard-name($spec);
+
+        if not $stdName.defined {
+            die "The specification $spec is an unknown chemical element.";
+        }
+
+        %elementData{$stdName.lc}
+    }
+
     method get-number-of-elements() {
         @elementData.elems
     }
@@ -104,6 +119,8 @@ class Chemistry::Stoichiometry::ResourceAccess {
     multi method get-standard-name(Str:D $spec) {
         if %abbrToStandardName{$spec}:exists {
             %abbrToStandardName{$spec}
+        } elsif %standardNameToAtomicNumber{$spec.lc}:exists {
+            $spec.lc.tc
         } else {
             my $res = Nil;
             for %langNames.keys -> $l {
@@ -116,8 +133,12 @@ class Chemistry::Stoichiometry::ResourceAccess {
     }
 
     multi method get-standard-name(Int:D $spec --> Str) {
-        die "Unknown atomic number: $spec" unless %atomicNumberToStandardName{$spec}:exists;
-        %atomicNumberToStandardName{$spec};
+        if %atomicNumberToStandardName{$spec}:exists {
+            %atomicNumberToStandardName{$spec}
+        } else {
+            warn "Unknown atomic number: $spec";
+            Nil
+        }
     }
 
     multi method get-atomic-weight(Str:D $spec --> Num) {
@@ -134,8 +155,12 @@ class Chemistry::Stoichiometry::ResourceAccess {
     }
 
     multi method get-atomic-weight(Int:D $spec --> Num) {
-        die "Unknown atomic number: $spec" unless %atomicNumberToStandardName{$spec}:exists;
-        %standardNameToAtomicWeight{%atomicNumberToStandardName{$spec}};
+        if %atomicNumberToStandardName{$spec}:exists {
+            %standardNameToAtomicWeight{%atomicNumberToStandardName{$spec}}
+        } else {
+            warn "Unknown atomic number: $spec.";
+            Nil
+        }
     }
 
     method get-atomic-number(Str:D $spec --> Int) {

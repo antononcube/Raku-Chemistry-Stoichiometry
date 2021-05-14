@@ -20,6 +20,9 @@ use Chemistry::Stoichiometry::Actions::MolecularMass;
 use Chemistry::Stoichiometry::Actions::WL::System;
 
 #-----------------------------------------------------------
+my Chemistry::Stoichiometry::ResourceAccess $resources.instance;
+
+#-----------------------------------------------------------
 my %targetToAction =
     "Mathematica"      => Chemistry::Stoichiometry::Actions::WL::System,
     "WL"               => Chemistry::Stoichiometry::Actions::WL::System,
@@ -41,12 +44,51 @@ sub has-semicolon (Str $word) {
 }
 
 #-----------------------------------------------------------
-sub balance-chemical-equation(Str $spec ) is export {
+sub atomic-number($spec) is export {
+    chemical-element-data($spec):atomic-number
+}
+
+#-----------------------------------------------------------
+sub atomic-weight($spec) is export {
+    chemical-element-data($spec):atomic-weight
+}
+
+#-----------------------------------------------------------
+sub balance-chemical-equation(Str:D $spec ) is export {
     Chemistry::Stoichiometry::Grammar.parse($spec, actions => Chemistry::Stoichiometry::Actions::EquationBalance).made;
 }
 
 #-----------------------------------------------------------
-sub molecular-mass(Str $spec ) is export {
+sub chemical-symbol($spec) is export {
+    chemical-element-data($spec):symbol
+}
+
+#-----------------------------------------------------------
+sub chemical-element($spec) is export {
+    chemical-element($spec):standard-name
+}
+
+#-----------------------------------------------------------
+sub chemical-element-data($spec,
+                          Bool :$symbol, Bool :$abbr,
+                          Bool :$name, Bool :$standard-name,
+                          Bool :$weight, Bool :$atomic-weight,
+                          Bool :$number, Bool :$atomic-number) is export {
+
+    my $stdName = $resources.get-standard-name($spec);
+    if not $stdName.defined { return Nil }
+
+    my $data = $resources.get-element-data( $stdName );
+
+    if $symbol or $abbr             { $data<Abbreviation> }
+    elsif $name or $standard-name   { $data<StandardName> }
+    elsif $weight or $atomic-weight { $data<AtomicWeight> }
+    elsif $number or $atomic-number { $data<AtomicNumber> }
+    else                            { $data }
+}
+
+#-----------------------------------------------------------
+sub molecular-mass(Str:D $spec ) is export {
     Chemistry::Stoichiometry::Grammar.parse($spec, actions => Chemistry::Stoichiometry::Actions::MolecularMass).made;
 }
 
