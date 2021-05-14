@@ -32,6 +32,14 @@ say "=" x 60;
 
 my @testCommands = ['Cl', 'O', 102, 'Actinium', 'ガリウム', 'берилий'];
 
+say chemical-symbol(@testCommands);
+say chemical-element(@testCommands);
+say atomic-number(@testCommands);
+say atomic-weight(@testCommands);
+say chemical-element-data(@testCommands);
+
+say molecular-mass(<Cl H2O SO2>):p;
+
 for @testCommands -> $c {
     say "-" x 30;
     my $res = chemical-element-data($c):abbr;

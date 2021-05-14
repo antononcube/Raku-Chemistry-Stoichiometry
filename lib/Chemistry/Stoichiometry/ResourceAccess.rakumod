@@ -100,12 +100,17 @@ class Chemistry::Stoichiometry::ResourceAccess {
     ##========================================================
     ## Access
     ##========================================================
-    method get-element-data($spec) {
+    multi method get-element-data() {
+        %elementData
+    }
+
+    multi method get-element-data($spec) {
 
         my $stdName = self.get-standard-name($spec);
 
         if not $stdName.defined {
-            die "The specification $spec is an unknown chemical element.";
+            warn "The specification $spec is not a known chemical element.";
+            return Nil
         }
 
         %elementData{$stdName.lc}
