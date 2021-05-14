@@ -16,19 +16,51 @@ class Chemistry::Stoichiometry::Actions::EquationMatrix {
     ## Equation
     ##========================================================
     method chemical-equation($/) {
-        my %eqs = %(LHS => $<lhs>.made, RHS => $<rhs>.made);
+
+        # Form a list of pairs and a hashmap for LHS and RHS.
+        my @eqs = [LHS => $<lhs>.made, RHS => $<rhs>.made];
+        my %eqs = @eqs;
+
+        # Find all unique chemical elements in the reaction.
         my @eqElements = %eqs.values.map({ $_.values.map({ $_.keys }) }).flat.unique.sort;
-        my %eqElementToIndex = @eqElements Z=> 0..@eqElements.elems;
-        my @eqMats =
-                do for %eqs.kv -> $side, %mix {
-                    my @vecs = %mix.map({ self.make-vector($_.value, %eqElementToIndex) });
-                    my Math::Matrix $mat;
-                    $mat = @vecs[0] ;
-                    for @vecs[1..^*] -> $v { $mat = $mat.splice-columns(-1, 0, $v) };
-                    $mat
-                }
-        my Math::Matrix $mat = @eqMats[0].splice-columns( -1, 0, @eqMats[1] * (-1) );
-        make {Equations => %eqs, Matrix => $mat, ElementToIndex => %eqElementToIndex};
+
+        # Make an element-to-index dictionary.
+        my %eqElementToIndex = @eqElements Z=> 0 .. @eqElements.elems;
+
+        # Make a list of two matrices corresponding to LHS and RHS respectively.
+        my @eqMats;
+        my %compoundToIndex;
+
+        my $k = 0;
+
+        # Using @eqs instead of %eqs because we want LHS to be processed before RHS.
+        for @eqs -> $pside {
+
+            # Get the mixture of compounds.
+            my %mix = $pside.value;
+
+            # Sort the keys of the hashmap.
+            my @pairs = %mix.pairs.sort({ $_.key });
+
+            # Make column vectors for each compound in the reaction.
+            my @vecs = @pairs.map({ self.make-vector($_.value, %eqElementToIndex) });
+
+            # Create matrix by splicing the columns.
+            my Math::Matrix $mat;
+            $mat = @vecs[0];
+            for @vecs[1 ..^*] -> $v { $mat = $mat.splice-columns(-1, 0, $v) };
+
+            # Push into the result structures.
+            @eqMats.push($mat);
+            %compoundToIndex.push( @pairs.map({ $_.key => $k++ }) )
+        }
+
+        # Splice the LHS and RHS matrices.
+        # The second matrix has to be negated since for the balance equation.
+        my Math::Matrix $mat = @eqMats[0].splice-columns(-1, 0, @eqMats[1] * (-1));
+
+        # Return a hashmap with all data structures.
+        make { Equations => %eqs, Matrix => $mat, ElementToIndex => %eqElementToIndex, CompoundToIndex => %compoundToIndex };
     }
 
     method hv-sunlight($/) {
@@ -51,7 +83,7 @@ class Chemistry::Stoichiometry::Actions::EquationMatrix {
     ##========================================================
     method molecule($/) {
         my %res;
-        for $<sub-molecule>>>.made -> %h { %res.push( %h ) };
+        for $<sub-molecule>>>.made -> %h { %res.push(%h) };
         make Hash(%res.pairs.map({ $_.key => $_.value.sum }));
     }
 
@@ -60,7 +92,7 @@ class Chemistry::Stoichiometry::Actions::EquationMatrix {
     }
 
     method chemical-element($/) {
-        make %( Pair.new( $/.Str, 1) );
+        make %( Pair.new($/.Str, 1));
     }
 
     method chemical-element-mult($/) {
@@ -83,10 +115,15 @@ class Chemistry::Stoichiometry::Actions::EquationMatrix {
     ## Basis vectors
     ##========================================================
     method make-vector(%elemToCount, %elemToIndex) {
+
+        # Make a zero matrix with one column.
         my $res = Math::Matrix.new-zero(%elemToIndex.elems, 1);
+
+        # Fill-in the values
         for %elemToCount.kv -> $elem, $count {
-            $res[%elemToIndex{$elem}][0] = Rat($count);
+            $res[%elemToIndex{$elem}][0] = $count;
         }
+
         $res
     }
 
@@ -98,7 +135,7 @@ class Chemistry::Stoichiometry::Actions::EquationMatrix {
 
     multi method make-basis-vector(Str:D $elem) {
         my $res = Math::Matrix.new-zero($resources.get-number-of-elements, 1);
-        $res[$resources.get-atomic-number($elem)-1][0] = 1;
+        $res[$resources.get-atomic-number($elem) - 1][0] = 1;
         $res
     }
 }

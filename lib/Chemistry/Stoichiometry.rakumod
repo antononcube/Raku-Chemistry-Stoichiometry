@@ -15,6 +15,7 @@ interpretation of stoichiometry formulas and equations.
 unit module Chemistry::Stoichiometry;
 
 use Chemistry::Stoichiometry::Grammar;
+use Chemistry::Stoichiometry::Actions::EquationBalance;
 use Chemistry::Stoichiometry::Actions::MolecularMass;
 use Chemistry::Stoichiometry::Actions::WL::System;
 
@@ -37,6 +38,11 @@ my %targetToSeparator{Str} =
 #-----------------------------------------------------------
 sub has-semicolon (Str $word) {
     return defined index $word, ';';
+}
+
+#-----------------------------------------------------------
+sub balance-chemical-equation(Str $spec ) is export {
+    Chemistry::Stoichiometry::Grammar.parse($spec, actions => Chemistry::Stoichiometry::Actions::EquationBalance).made;
 }
 
 #-----------------------------------------------------------
