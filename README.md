@@ -43,7 +43,7 @@ say chemical-element('Cl', 'Russian');
 Chemical element names can be obtained using the function `chemical-element-data` with the adverb `:name`:
 
 ```perl6
-say chemical-element-data('Cl', 'Persian'):name;
+say chemical-element-data('Cl'):name;
 ```
 
 ### Element symbols / abbreviations
@@ -102,6 +102,10 @@ say molecular-mass('C2H5OH + O2 = H2O + CO2');
 
 ```perl6
 say balance-chemical-equation('C2H5OH + O2 = H2O + CO2');
+# [1*C2H5OH + 3*O2 = 2*CO2 + 3*H2O]
+
+say balance-chemical-equation( 'K4Fe(CN)6 + H2SO4 + H2O = K2SO4 + FeSO4 + (NH4)2SO4 + CO' );
+# [6*H2O + 6*H2SO4 + 1*K4Fe(CN)6 = 3*(NH4)2SO4 + 6*CO + 1*FeSO4 + 2*K2SO4]
 ```
 
 ## References
