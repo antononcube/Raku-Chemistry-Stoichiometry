@@ -92,16 +92,22 @@ multi chemical-symbol($spec) {
 
 #-----------------------------------------------------------
 #|( Convert chemical element abbreviations or atomic numbers into chemical element standard names.
-    * C<$num> A string, an integer, or a list of strings and/or integers to be converted.
+    * C<$spec> A string, an integer, or a list of strings and/or integers to be converted.
+    * C<$language> Which language the output to be in?
 )
 proto chemical-element(|) is export {*}
+#| The first argument can be in a language other than English.
 
-multi chemical-element(@specs) {
-    @specs.map({ chemical-element($_) })
+multi chemical-element(@specs, Str:D $language = 'English') {
+    @specs.map({ chemical-element($_, $language) })
 }
 
-multi chemical-element($spec) is export {
-    chemical-element-data($spec):standard-name
+multi chemical-element($spec, Str:D $language = 'English') is export {
+    if $language.lc eq 'english' {
+        chemical-element-data($spec):standard-name
+    } else {
+        $resources.get-standard-name($spec, $language)
+    }
 }
 
 #-----------------------------------------------------------

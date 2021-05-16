@@ -30,6 +30,15 @@ my $pCOMMAND = Chemistry::Stoichiometry::Grammar;
 
 say "=" x 60;
 
+say chemical-element('Oxygen', 'Russian');
+say chemical-element(12, 'Russian');
+say chemical-element('Хлор', 'Japanese');
+say chemical-element('Хлор', 'Spanish');
+say chemical-element(['Хлор', 'Кислород', 'Водород', 'Oxygen'], 'Spanish');
+
+
+say "=" x 60;
+
 my @testCommands = ['Cl', 'O', 102, 'Actinium', 'ガリウム', 'берилий'];
 
 say chemical-symbol(@testCommands);

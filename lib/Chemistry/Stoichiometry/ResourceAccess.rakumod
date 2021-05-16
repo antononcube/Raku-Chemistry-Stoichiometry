@@ -90,7 +90,7 @@ class Chemistry::Stoichiometry::ResourceAccess {
             %langNames = %langNames.push( $fn => %nameRules );
         }
 
-        # For completeness, add English
+        # For completeness, add English.
         %langNames.push( "English" => Hash(@elementData.map({ $_<Name>.lc  => $_<StandardName> })) );
 
         #-----------------------------------------------------------
@@ -120,7 +120,7 @@ class Chemistry::Stoichiometry::ResourceAccess {
         @elementData.elems
     }
 
-    # If a dictionary of dictionaries is used these can be refactored.
+    # If a dictionary of dictionaries is used the functions below can be refactored.
     multi method get-standard-name(Str:D $spec) {
         if %abbrToStandardName{$spec}:exists {
             %abbrToStandardName{$spec}
@@ -144,6 +144,14 @@ class Chemistry::Stoichiometry::ResourceAccess {
             warn "Unknown atomic number: $spec";
             Nil
         }
+    }
+
+    multi method get-standard-name($spec, Str:D $language --> Str) {
+        my Str $stdName = self.get-standard-name($spec);
+
+        warn "Unknown language $language. Known languages are {%langNames.keys}" unless $language.lc.tc (elem) %langNames.keys;
+
+        %(%langNames{$language.lc.tc}.invert){$stdName}.lc.tc
     }
 
     multi method get-atomic-weight(Str:D $spec --> Num) {
