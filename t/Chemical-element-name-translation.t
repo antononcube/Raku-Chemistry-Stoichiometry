@@ -5,7 +5,7 @@ use lib '.';
 
 use Chemistry::Stoichiometry;
 
-plan 6;
+plan 7;
 
 ## 1
 is-deeply chemical-element('Oxygen', 'Russian'),
@@ -28,11 +28,16 @@ is-deeply chemical-element('Хлор', 'Spanish'),
         "chemical-element('Хлор', 'Spanish')";
 
 ## 5
+is-deeply chemical-element('Хлор', 'Persian'),
+        'کلر',
+        "chemical-element('Хлор', 'Persian')";
+
+## 6
 is-deeply chemical-element(['Хлор', 'Кислород', 'Водород', 'Oxygen'], 'Spanish'),
         <Cloro Oxígeno Hidrógeno Oxígeno>,
         'chemical-element-data(@testCommands)';
 
-## 6
+## 7
 is-deeply chemical-element(<Oxygen Argon Carbon>),
         <Oxygen Argon Carbon>,
         "chemical-element(<Oxygen, Argon, Carbon>)";
