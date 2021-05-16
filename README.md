@@ -1,5 +1,7 @@
 # Raku Chemistry::Stoichiometry
 
+[![Build Status](https://travis-ci.com/antononcube/Raku-Chemistry-Stoichiometry.svg?branch=main)](https://travis-ci.com/antononcube/Raku-Chemistry-Stoichiometry)
+
 ## In brief
 
 Raku package for Stoichiometry procedures and related data.
