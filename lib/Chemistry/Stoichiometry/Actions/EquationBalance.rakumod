@@ -48,7 +48,7 @@ class Chemistry::Stoichiometry::Actions::EquationBalance
 
             # Concatenate the balanced terms from both sides and
             # concatenate into a balanced equation.
-            @positive.join(' + ') ~ ' = ' ~ @negative.join(' + ')
+            @positive.join(' + ') ~ ' -> ' ~ @negative.join(' + ')
         }
 
         # Return/make the array of balanced equation strings.
