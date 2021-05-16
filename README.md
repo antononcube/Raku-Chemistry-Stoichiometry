@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.com/antononcube/Raku-Chemistry-Stoichiometry.svg?branch=main)](https://travis-ci.com/antononcube/Raku-Chemistry-Stoichiometry)
 
-## In brief
+## Introduction
 
 Raku package for Stoichiometry procedures and related data. The primary functionalities are:
 
@@ -26,9 +26,6 @@ say balance-chemical-equation('C2H5OH + O2 = H2O + CO2');
 The package has also functions for chemical element data retrieval
 and functions that convert between chemical names, symbols/abbreviations, atomic numbers. 
 
-**Remark:** Multiple languages can be used for the names of the chemical elements. 
-The corresponding functions automatically detect the language.  
-
 Here are a couple of examples:
 
 ```perl6
@@ -39,10 +36,21 @@ say chemical-symbol('ガリウム');
 # Ga
 ```
 
+**Remark:** Multiple languages can be used for the names of the chemical elements. 
+The corresponding functions automatically detect the language. 
+
+**Remark:** At this point the package has standard element names in the languages:
+Bulgarian, English, Japanese, Persian, Russian, and Spanish. Adding new languages is
+easily achieved by adding CSV files into the [resources](./resources) directory.
+
+
+### Related work
+
 The package 
 [Chemistry::Elements](https://github.com/briandfoy/perl6-chemistry-elements)
-developed by Brian D. Foy, [BF1], also has functions to convert
+developed by Brian D. Foy, [BF1], also has functions that convert
 between chemical names, symbols/abbreviations, and atomic numbers. 
+(Several languages are supported.) 
 
 ------
 
