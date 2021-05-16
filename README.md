@@ -4,11 +4,44 @@
 
 ## In brief
 
-Raku package for Stoichiometry procedures and related data.
+Raku package for Stoichiometry procedures and related data. The primary functionalities are:
+
+- Calculation of molecular mass for a given chemical compound formula
+
+
+- Chemical equation balancing
+
+Here are corresponding examples:
+
+```perl6
+use Chemistry::Stoichiometry;
+
+say molecular-mass('SO2');
+# 64.058
+
+say balance-chemical-equation('C2H5OH + O2 = H2O + CO2');
+# [1*C2H5OH + 3*O2 = 2*CO2 + 3*H2O]
+```
+
+The package has also functions for chemical element data retrieval
+and functions that convert between chemical names, symbols/abbreviations, atomic numbers. 
+
+**Remark:** Multiple languages can be used for the names of the chemical elements. 
+The corresponding functions automatically detect the language.  
+
+Here are a couple of examples:
+
+```perl6
+say atomic-number('actinium');
+# 89
+
+say chemical-symbol('ガリウム');
+# Ga
+```
 
 The package 
 [Chemistry::Elements](https://github.com/briandfoy/perl6-chemistry-elements)
-developed by Brian D. Foy, [BF1], has functions to convert
+developed by Brian D. Foy, [BF1], also has functions to convert
 between chemical names, symbols/abbreviations, and atomic numbers. 
 
 ------
@@ -23,9 +56,9 @@ zef install https://github.com/antononcube/Raku-Chemistry-Stoichiometry.git
 
 ------
 
-## Usage examples
+## Element data retrieval
 
-### Element data
+### Element data records
 
 Element data of one or several elements can be obtained with the function `chemical-element-data`:
 
@@ -81,7 +114,7 @@ Note, that `chemical-element` will automatically detect the language.
 
 ```perl6
 say atomic-number('Cl');
-#17
+# 17
 
 say atomic-number('actinium');  # from the English name of Ac
 # 89
@@ -100,7 +133,7 @@ say chemical-element-data('Cl'):atomic-number;
 # 17
 ```
 
-### Atomic weight
+### Atomic weights
 
 ```perl6
 say atomic-weight('Se');
@@ -119,6 +152,10 @@ say chemical-element-data('Cl'):weight;
 say chemical-element-data('Cl'):atomic-weight;
 # 35.45
 ```
+
+------
+
+## Stoichiometry procedures
 
 ### Molecular mass
 
@@ -140,6 +177,8 @@ say balance-chemical-equation( 'K4Fe(CN)6 + H2SO4 + H2O = K2SO4 + FeSO4 + (NH4)2
 # [6*H2O + 6*H2SO4 + 1*K4Fe(CN)6 = 3*(NH4)2SO4 + 6*CO + 1*FeSO4 + 2*K2SO4]
 ```
 
+------
+
 ## TODO
 
 1. [ ] Extensive tests:
@@ -152,7 +191,7 @@ say balance-chemical-equation( 'K4Fe(CN)6 + H2SO4 + H2O = K2SO4 + FeSO4 + (NH4)2
    
    - [ ] Chemical equation balancing
     
-2. [ ] Chemical element names translation function. 
+2. [X] Chemical element names translation function. 
        (Say, from Bulgarian to Persian.)
 
 3. [ ] Extensive documentation.
