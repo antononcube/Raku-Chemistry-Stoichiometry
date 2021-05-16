@@ -62,8 +62,7 @@ class Chemistry::Stoichiometry::ResourceAccess {
 
         # Convert the numerical fields into numbers.
         @elementData = do for @elementData -> %row {
-            my %res = %row, %( AtomicNumber => %row<AtomicNumber>.Int, AtomicWeight => %row<AtomicWeight>.Num );
-            %res
+            Hash( %row, %( AtomicNumber => %row<AtomicNumber>.Int, AtomicWeight => %row<AtomicWeight>.Num ) )
         }
 
         # Make element data dictionary
