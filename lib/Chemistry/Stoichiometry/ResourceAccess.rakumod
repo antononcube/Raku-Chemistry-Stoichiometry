@@ -60,16 +60,22 @@ class Chemistry::Stoichiometry::ResourceAccess {
             die "The CSV file $fileName does not have the expected column names: {@expectedColumnNames.join(', ')}.";
         }
 
+        # Convert the numerical fields into numbers.
+        @elementData = do for @elementData -> %row {
+            my %res = %row, %( AtomicNumber => %row<AtomicNumber>.Int, AtomicWeight => %row<AtomicWeight>.Num );
+            %res
+        }
+
         # Make element data dictionary
         %elementData = @elementData.map({ $_<StandardName>.lc => $_ });
 
         # Create dictionaries
         # Maybe it is better to have a dictionary of dictionaries.
-        %standardNameToAtomicWeight = @elementData.map( { $_<StandardName>     => $_<AtomicWeight>.Num } );
-        %standardNameToAbbr =         @elementData.map( { $_<StandardName>     => $_<Abbreviation> } );
-        %abbrToStandardName =         @elementData.map( { $_<Abbreviation>     => $_<StandardName> } );
-        %standardNameToAtomicNumber = @elementData.map( { $_<StandardName>     => $_<AtomicNumber>.Int } );
-        %atomicNumberToStandardName = @elementData.map( { $_<AtomicNumber>.Int => $_<StandardName> } );
+        %standardNameToAtomicWeight = @elementData.map( { $_<StandardName> => $_<AtomicWeight> } );
+        %standardNameToAbbr =         @elementData.map( { $_<StandardName> => $_<Abbreviation> } );
+        %abbrToStandardName =         @elementData.map( { $_<Abbreviation> => $_<StandardName> } );
+        %standardNameToAtomicNumber = @elementData.map( { $_<StandardName> => $_<AtomicNumber> } );
+        %atomicNumberToStandardName = @elementData.map( { $_<AtomicNumber> => $_<StandardName> } );
 
         #-----------------------------------------------------------
         @expectedColumnNames = <Index Name Abbreviation StandardName>;
