@@ -80,7 +80,7 @@ class Chemistry::Stoichiometry::ResourceAccess {
         @expectedColumnNames = <Index Name Abbreviation StandardName>;
 
         # The language list has to be derived automatically instead specified manually.
-        for <Bulgarian Japanese Persian Russian Spanish> -> $fn {
+        for <Bulgarian German Greek Japanese Persian Polish Russian Spanish> -> $fn {
             my $fileName = %?RESOURCES{'ElementNames_' ~ $fn ~ '.csv'};
             my Str @nameIDPairs = $fileName.lines;
 
