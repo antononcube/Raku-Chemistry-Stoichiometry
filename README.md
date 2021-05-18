@@ -214,6 +214,8 @@ can be balanced in several ways corresponding to different reactions.
 
 ## TODO
 
+In order of importance, most important are first:
+
 1. [ ] Extensive tests:
    
    - [ ] Chemical data retrieval
@@ -226,22 +228,24 @@ can be balanced in several ways corresponding to different reactions.
     
 2. [X] Chemical element names translation function. 
        (Say, from Bulgarian to Persian.)
+   
+3. [ ] Inverse look-up from atomic weight to chemical element(s).
 
-3. [ ] Extensive documentation.
+4. [ ] Extensive documentation.
 
-4. [ ] Handling of semicolon separated input. 
+5. [ ] Handling of semicolon separated input. 
  
    - [ ] For the data functions. E.g. `atomic-weight('Cl; O; Mn')`.
     
    - [ ] For the parser-interpreter functions. E.g. `molecular-mass('FeSO4; H2O; CO2')`.
 
-5. [ ] Parsing of (pre-)balanced chemical equations. 
+6. [ ] Parsing of (pre-)balanced chemical equations. 
    
-6. [ ] Recognition of chemical compound names.
+7. [ ] Recognition of chemical compound names.
 
    - This requires the development of a separate chemical entities package.
 
-7. [ ] Element data in more languages.
+8. [ ] Element data in more languages.
 
 ------
 
