@@ -39,8 +39,9 @@ say chemical-symbol('ガリウム');
 The corresponding functions automatically detect the language. 
 
 **Remark:** At this point the package has standard element names in the languages:
-Bulgarian, English, Japanese, Persian, Russian, and Spanish. Adding new languages is
-easily achieved by adding CSV files into the [resources](./resources) directory.
+Bulgarian, German, Greek, English, Japanese, Persian, Polish, Russian, and Spanish. 
+Adding new languages is easily achieved by adding CSV files into the 
+[resources](./resources) directory.
 
 ### Related work
 
