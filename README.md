@@ -97,10 +97,14 @@ say chemical-element('Cl', 'Russian');
 # Хлор
 ```
 
-Chemical element names can be obtained using the function `chemical-element-data` with the adverb `:name`:
+Chemical element names can be obtained using the function `chemical-element-data` with the adverbs
+`:name` or `:standard-name`:
 
 ```perl6
 say chemical-element-data('Cl'):name;
+# Chlorine
+
+say chemical-element-data('Cl'):standard-name;
 # Chlorine
 ```
 
@@ -114,7 +118,8 @@ say chemical-symbol('кислород'); # 'O' from Bulgarian
 # O
 ```
 
-Chemical element abbreviations can be obtained using the function `chemical-element-data` with the adverb `:abbr`:
+Chemical element abbreviations can be obtained using the function `chemical-element-data` with the adverbs
+`:symbol` or `:abbr`:
 
 ```perl6
 say chemical-element-data('oxygen'):symbol;         # 'O' from English
@@ -139,7 +144,7 @@ say atomic-number('берилий');   # from the Bulgarian name of Be
 # 4
 ```
 
-Alternatively, `chemical-element-data` can be used with the adverb `:atomic-number`:
+Alternatively, `chemical-element-data` can be used with the adverbs `:number` or `:atomic-number`:
 
 ```perl6
 say chemical-element-data('Cl'):number;
@@ -159,7 +164,7 @@ say atomic-weight('ガリウム');  # from the Japanese name of Ga
 # 69.723
 ```
 
-Alternatively, `chemical-element-data` can be used with the adverb `:atomic-weight`:
+Alternatively, `chemical-element-data` can be used with the adverbs `:weight` or `:atomic-weight`:
 
 ```perl6
 say chemical-element-data('Cl'):weight;
