@@ -28,6 +28,7 @@
   "test-depends": [],
   "resources": [
     "ElementData.csv",
+    "ElementNames_Arabic.csv",
     "ElementNames_Bulgarian.csv",
     "ElementNames_German.csv",
     "ElementNames_Greek.csv",
