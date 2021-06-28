@@ -173,30 +173,3 @@ multi molecular-mass(@specs, Bool :$p = False) {
 multi molecular-mass(Str:D $spec ) is export {
     Chemistry::Stoichiometry::Grammar.parse($spec, actions => Chemistry::Stoichiometry::Actions::MolecularMass).made;
 }
-
-#-----------------------------------------------------------
-proto ToStoichiometryCode(Str $command, Str $target = 'WL' ) is export {*}
-
-multi ToStoichiometryCode ( Str $command where not has-semicolon($command), Str $target = 'WL' ) {
-
-    die 'Unknown target.' unless %targetToAction{$target}:exists;
-
-    my $match = Chemistry::Stoichiometry::Grammar.parse($command.trim, actions => %targetToAction{$target} );
-    die 'Cannot parse the given command.' unless $match;
-    return $match.made;
-}
-
-multi ToStoichiometryCode ( Str $command where has-semicolon($command), Str $target = 'WL' ) {
-
-    die 'Unknown target.' unless %targetToAction{$target}:exists;
-
-    my @commandLines = $command.trim.split(/ ';' \s* /);
-
-    @commandLines = grep { $_.Str.chars > 0 }, @commandLines;
-
-    my @cmdLines = map { ToStoichiometryCode($_, $target) }, @commandLines;
-
-    @cmdLines = grep { $_.^name eq 'Str' }, @cmdLines;
-
-    return @cmdLines.join( %targetToSeparator{$target} ).trim;
-}
