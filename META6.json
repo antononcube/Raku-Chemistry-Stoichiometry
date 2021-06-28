@@ -3,8 +3,8 @@
   "name": "Chemistry::Stoichiometry",
   "api": "1",
   "auth": "github:antononcube",
-  "version": "0.1.0",
-  "description": "Package for Stoichiometry procedures: chemical formula parsing, chemical equations balancing. Contains relevant chemical element data",
+  "version": "0.1.1",
+  "description": "Package for Stoichiometry procedures: chemical formula parsing, chemical equations balancing. Contains relevant chemical element data. Multi-language support.",
   "authors": [
     "Anton Antonov"
   ],
