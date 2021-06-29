@@ -4,11 +4,14 @@
 
 ## Introduction
 
-Raku package for Stoichiometry procedures and related data. The primary functionalities are:
+This repository is with Raku package for Stoichiometry procedures and related data.
+The primary functionalities are:
 
 - Calculation of molecular masses for chemical compound formulas
 
 - Chemical equations balancing
+
+- Multi-language support
 
 Here are corresponding examples:
 
@@ -39,8 +42,8 @@ say chemical-symbol('ガリウム');
 The corresponding functions automatically detect the language. 
 
 **Remark:** At this point the package has standard element names in the languages:
-Bulgarian, German, Greek, English, Japanese, Persian, Polish, Russian, and Spanish. 
-Adding new languages is easily achieved by adding CSV files into the 
+Arabic, Bulgarian, English, German, Greek, Japanese, Persian, Polish, Russian, and Spanish. 
+Adding new languages can be easily done by adding CSV files into the 
 [resources](./resources) directory.
 
 ### Related work
@@ -64,7 +67,17 @@ See for example
 
 ## Installation
 
-To install the package in Raku with [zef installer](https://github.com/ugexe/zef):
+Installation from both sources use [zef installer](https://github.com/ugexe/zef)
+(which should be bundled with the "standard" [Rakudo](https://rakudo.org) installation file.)
+
+To install the package from [Raku Modules / PAUSE](https://modules.raku.org)
+use the shell command:
+
+```
+zef install Chemistry::Stoichiometry
+```
+
+To install the package from the GitHub repository use the shell command:
 
 ```
 zef install https://github.com/antononcube/Raku-Chemistry-Stoichiometry.git
