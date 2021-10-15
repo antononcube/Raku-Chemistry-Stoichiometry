@@ -232,6 +232,41 @@ can be balanced in several ways corresponding to different reactions.
 
 ------
 
+## Abstract syntax tree
+
+Here is a way to get Abstract Syntax Tree of a (parse-able) molecule formula:
+
+```perl6
+my $cf = 'K4Fe(CN)6';
+say Chemistry::Stoichiometry::Grammar.parse( $cf );
+```
+
+```perl6
+#｢K4Fe(CN)6｣
+# molecule => ｢K4Fe(CN)6｣
+#  sub-molecule => ｢K4｣
+#   chemical-element-mult => ｢K4｣
+#    chemical-element => ｢K｣
+#     K-stoichiometry => ｢K｣
+#    number => ｢4｣
+#  sub-molecule => ｢Fe｣
+#   chemical-element => ｢Fe｣
+#    Fe-stoichiometry => ｢Fe｣
+#  sub-molecule => ｢(CN)6｣
+#   group-mult => ｢(CN)6｣
+#    group => ｢(CN)｣
+#     molecule => ｢CN｣
+#      sub-molecule => ｢C｣
+#       chemical-element => ｢C｣
+#        C-stoichiometry => ｢C｣
+#      sub-molecule => ｢N｣
+#       chemical-element => ｢N｣
+#        N-stoichiometry => ｢N｣
+#    number => ｢6｣
+```
+
+------
+
 ## TODO
 
 In order of importance, most important are first:
