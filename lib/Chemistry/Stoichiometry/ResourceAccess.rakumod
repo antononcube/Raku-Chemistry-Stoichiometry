@@ -82,7 +82,6 @@ class Chemistry::Stoichiometry::ResourceAccess {
         # The language list has to be derived automatically instead specified manually.
         for <Arabic Bulgarian German Greek Japanese Persian Polish Russian Spanish> -> $fn {
             my $fileName = %?RESOURCES{'ElementNames_' ~ $fn ~ '.csv'};
-            my Str @nameIDPairs = $fileName.lines;
 
             my $csv = Text::CSV.new;
             my @elementDataLocalized = $csv.csv(in => $fileName.Str, headers => 'auto');

@@ -12,10 +12,6 @@ use v6;
 # See also "OpenSMILES specification":
 # http://opensmiles.org/opensmiles.html
 
-use Chemistry::Stoichiometry::ResourceAccess;
-
-my Chemistry::Stoichiometry::ResourceAccess $resources.instance;
-
 role Chemistry::Stoichiometry::Grammar::ChemicalEquation {
 
     # General tokens
