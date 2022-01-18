@@ -1,6 +1,8 @@
 use Chemistry::Stoichiometry::Grammar;
 use Chemistry::Stoichiometry::ResourceAccess;
 
+my Chemistry::Stoichiometry::ResourceAccess $resources.instance;
+
 class Chemistry::Stoichiometry::Actions::MolecularMass {
 
     method TOP($/) {
