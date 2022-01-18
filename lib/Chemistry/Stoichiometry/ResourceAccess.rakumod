@@ -120,6 +120,10 @@ class Chemistry::Stoichiometry::ResourceAccess {
         %elementData{$stdName.lc}
     }
 
+    multi method get-language-names-data() {
+        %langNames
+    }
+
     method get-number-of-elements() {
         @elementData.elems
     }
