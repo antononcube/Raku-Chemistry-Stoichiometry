@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.com/antononcube/Raku-Chemistry-Stoichiometry.svg?branch=main)](https://travis-ci.com/antononcube/Raku-Chemistry-Stoichiometry)
 [![License: Artistic-2.0](https://img.shields.io/badge/License-Artistic%202.0-0298c3.svg)](https://opensource.org/licenses/Artistic-2.0)
 
-:bulgaria: 🇬🇧 🇩🇪 :greece: 🇯🇵 :iran: :poland: 🇷🇺 🇪🇸
+:bulgaria: 🇨🇿 🇬🇧 🇩🇪 :greece: 🇯🇵 🇰🇷 :iran: :poland: 🇷🇺 🇪🇸
 
 ## Introduction
 
@@ -273,36 +273,40 @@ say Chemistry::Stoichiometry::Grammar.parse( $cf );
 
 In order of importance, most important are first:
 
-1. [ ] Extensive tests:
+1. [ ] TODO Extensive tests:
    
-   - [ ] Chemical data retrieval
+   - [ ] TODO Chemical data retrieval
 
-   - [ ] Chemical compound formulae parser
+   - [ ] TODO Chemical compound formulae parser
 
-   - [ ] Molecular mass calculation
+   - [ ] TODO Molecular mass calculation
    
-   - [ ] Chemical equation balancing
+   - [ ] TODO Chemical equation balancing
     
-2. [X] Chemical element names translation function. 
+2. [X] DONE Chemical element names translation function. 
        (Say, from Bulgarian to Persian.)
    
-3. [ ] Inverse look-up from atomic weight to chemical element(s).
+3. [ ] TODO Inverse look-up from atomic weight to chemical element(s).
 
-4. [ ] Extensive documentation.
+4. [ ] TODO Extensive documentation.
 
-5. [ ] Handling of semicolon separated input. 
+5. [ ] TODO Handling of semicolon separated input. 
  
    - [ ] For the data functions. E.g. `atomic-weight('Cl; O; Mn')`.
     
    - [ ] For the parser-interpreter functions. E.g. `molecular-mass('FeSO4; H2O; CO2')`.
 
-6. [ ] Parsing of (pre-)balanced chemical equations. 
+6. [ ] TODO Parsing of (pre-)balanced chemical equations. 
    
-7. [ ] Recognition of chemical compound names.
+7. [ ] TODO Recognition of chemical compound names.
 
    - This requires the development of a separate chemical entities package.
 
-8. [ ] Element data in more languages.
+8. [ ] TODO Element data in more languages.
+
+   - [X] DONE Czech
+   - [X] DONE Korean
+   - [ ] TODO Other
 
 ------
 
