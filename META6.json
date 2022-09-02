@@ -1,12 +1,12 @@
 {
   "name": "Chemistry::Stoichiometry",
   "description": "Package for Stoichiometry procedures: chemical formula parsing, chemical equations balancing. Contains relevant chemical element data. Multi-language support.",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "perl": "6.d",
   "authors": [
     "Anton Antonov"
   ],
-  "auth": "github:antononcube",
+  "auth": "zef:antononcube",
   "depends": [
     "Text::CSV",
     "Math::Matrix"
@@ -28,9 +28,11 @@
     "ElementData.csv",
     "ElementNames_Arabic.csv",
     "ElementNames_Bulgarian.csv",
+    "ElementNames_Czech.csv",
     "ElementNames_German.csv",
     "ElementNames_Greek.csv",
     "ElementNames_Japanese.csv",
+    "ElementNames_Korean.csv",
     "ElementNames_Persian.csv",
     "ElementNames_Polish.csv",
     "ElementNames_Russian.csv",
