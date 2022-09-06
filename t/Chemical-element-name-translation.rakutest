@@ -5,7 +5,7 @@ use lib '.';
 
 use Chemistry::Stoichiometry;
 
-plan 14;
+plan 15;
 
 ## 1
 is-deeply chemical-element('Хлор', 'Bulgarian'),
@@ -13,66 +13,71 @@ is-deeply chemical-element('Хлор', 'Bulgarian'),
         "chemical-element('Хлор', 'Bulgarian')";
 
 ## 2
+is-deeply chemical-element('Хлор', 'Chinese'),
+        '氯',
+        "chemical-element('Хлор', 'Chinese')";
+
+## 3
 is-deeply chemical-element('Хлор', 'Czech'),
         'Chlor',
         "chemical-element('Хлор', 'Czech')";
 
-## 3
+## 4
 is-deeply chemical-element('Хлор', 'German'),
         'Chlor',
         "chemical-element('Хлор', 'German')";
 
-## 4
+## 5
 is-deeply chemical-element('Хлор', 'Greek'),
         'Χλωριο',
         "chemical-element('Хлор', 'Greek')";
 
-## 5
+## 6
 is-deeply chemical-element('Хлор', 'Japanese'),
         '塩素',
         "chemical-element('Хлор', 'Japanese')";
 
-## 6
+## 7
 is-deeply chemical-element('Хлор', 'Korean'),
         '염소',
         "chemical-element('Хлор', 'Korean')";
 
-## 7
+## 8
 is-deeply chemical-element(12, 'Russian'),
         'Магний',
         "chemical-element(12, 'Russian')";
 
-## 8
+## 9
 is-deeply chemical-element('Хлор', 'Persian'),
         'کلر',
         "chemical-element('Хлор', 'Persian')";
 
-## 9
+## 10
 is-deeply chemical-element('Sodium', 'Arabic'),
         'صوديوم',
         "chemical-element('Sodium', 'Arabic')";
 
-## 10
+## 11
 is-deeply chemical-element('Хлор', 'Polish'),
         'Chlor',
         "chemical-element('Хлор', 'Polish')";
 
-## 11
+## 12
 is-deeply chemical-element('Хлор', 'Spanish'),
         'Cloro',
         "chemical-element('Хлор', 'Spanish')";
 
-## 12
+## 13
 is-deeply chemical-element('Oxygen', 'Russian'),
         'Кислород',
         "chemical-element('Oxygen', 'Russian')";
 
-## 13
+## 14
 is-deeply chemical-element(['Хлор', 'Кислород', 'Водород', 'Oxygen'], 'Spanish'),
         <Cloro Oxígeno Hidrógeno Oxígeno>,
         'chemical-element-data(@testCommands)';
 
-## 14
+## 15
 is-deeply chemical-element(<Oxygen Argon Carbon>),
         <Oxygen Argon Carbon>,
         "chemical-element(<Oxygen, Argon, Carbon>)";
