@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.com/antononcube/Raku-Chemistry-Stoichiometry.svg?branch=main)](https://travis-ci.com/antononcube/Raku-Chemistry-Stoichiometry)
 [![License: Artistic-2.0](https://img.shields.io/badge/License-Artistic%202.0-0298c3.svg)](https://opensource.org/licenses/Artistic-2.0)
 
-:bulgaria: 🇨🇳 🇨🇿 🇬🇧 🇩🇪 :greece: 🇯🇵 🇰🇷 :iran: :poland: 🇷🇺 🇪🇸
+:bulgaria: 🇨🇳 🇨🇿 🇬🇧 🇩🇪 :greece: 🇯🇵 🇰🇷 :iran: :poland: 🇵🇹 🇷🇺 🇪🇸
 
 ## Introduction
 
@@ -45,7 +45,7 @@ say chemical-symbol('ガリウム');
 The corresponding functions automatically detect the language. 
 
 **Remark:** At this point the package has standard element names in the languages:
-Arabic, Bulgarian, Chinese, Czech, English, German, Greek, Japanese, Korean, Persian, Polish, Russian, and Spanish. 
+Arabic, Bulgarian, Chinese, Czech, English, German, Greek, Japanese, Korean, Persian, Polish, Portuguese, Russian, and Spanish. 
 Adding new languages can be easily done by adding CSV files into the 
 [resources](./resources) directory.
 
@@ -308,6 +308,7 @@ In order of importance, most important are first:
    - [ ] Chinese Simplified
    - [X] DONE Czech
    - [X] DONE Korean
+   - [X] DONE Portuguese
    - [ ] TODO Other
 
 ------
