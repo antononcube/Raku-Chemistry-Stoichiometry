@@ -56,15 +56,23 @@ say chemical-symbol('ガリウム');
 **Remark:** Multiple languages can be used for the names of the chemical elements. 
 The corresponding functions automatically detect the language. 
 
-**Remark:** At this point the package has standard element names in the languages:
-Arabic, Bulgarian, Chinese, Czech, English, German, Greek, Japanese, Korean, Persian, Polish, Portuguese, Russian, and Spanish. 
+**Remark:** At this point the package has standard element names in the following languages:
+
+```perl6
+my Chemistry::Stoichiometry::ResourceAccess $resources.instance;
+say $resources.get-language-names-data.keys.sort;
+```
+```
+# (Arabic Bulgarian Chinese Czech English German Greek Japanese Korean Persian Polish Portuguese Russian Spanish)
+```
+
 Adding new languages can be easily done by adding CSV files into the 
 [resources](./resources) directory.
 
 ### Related work
 
 The package 
-[Chemistry::Elements](https://github.com/briandfoy/perl6-chemistry-elements)
+["Chemistry::Elements"](https://github.com/briandfoy/perl6-chemistry-elements)
 developed by Brian D. Foy, [BF1], also has functions that convert
 between chemical names, symbols/abbreviations, and atomic numbers. 
 (Several languages are supported.) 
@@ -85,7 +93,7 @@ See for example
 Package installations from both sources use [zef installer](https://github.com/ugexe/zef)
 (which should be bundled with the "standard" [Rakudo](https://rakudo.org) installation file.)
 
-To install the package from [Raku Modules / PAUSE](https://modules.raku.org)
+To install the package from [Zef ecosystem](https://raku.land)
 use the shell command:
 
 ```
@@ -107,7 +115,6 @@ zef install https://github.com/antononcube/Raku-Chemistry-Stoichiometry.git
 Element data of one or several elements can be obtained with the function `chemical-element-data`:
 
 ```perl6
-use Chemistry::Stoichiometry;
 say chemical-element-data('Cl');
 ```
 ```
@@ -115,10 +122,16 @@ say chemical-element-data('Cl');
 ```
 
 ```perl6
-say chemical-element-data(['H', 'Li', 'Na', 'K', 'Rb', 'Cs', 'Fr']);
+.say for chemical-element-data(['H', 'Li', 'Na', 'K', 'Rb', 'Cs', 'Fr']);
 ```
 ```
-# ({Abbreviation => H, AtomicNumber => 1, AtomicWeight => 1.008, Block => s, Group => 1, Name => hydrogen, Period => 1, Series => Nonmetal, StandardName => Hydrogen} {Abbreviation => Li, AtomicNumber => 3, AtomicWeight => 6.94, Block => s, Group => 1, Name => lithium, Period => 2, Series => AlkaliMetal, StandardName => Lithium} {Abbreviation => Na, AtomicNumber => 11, AtomicWeight => 22.98976928, Block => s, Group => 1, Name => sodium, Period => 3, Series => AlkaliMetal, StandardName => Sodium} {Abbreviation => K, AtomicNumber => 19, AtomicWeight => 39.0983, Block => s, Group => 1, Name => potassium, Period => 4, Series => AlkaliMetal, StandardName => Potassium} {Abbreviation => Rb, AtomicNumber => 37, AtomicWeight => 85.4678, Block => s, Group => 1, Name => rubidium, Period => 5, Series => AlkaliMetal, StandardName => Rubidium} {Abbreviation => Cs, AtomicNumber => 55, AtomicWeight => 132.90545196, Block => s, Group => 1, Name => cesium, Period => 6, Series => AlkaliMetal, StandardName => Cesium} {Abbreviation => Fr, AtomicNumber => 87, AtomicWeight => 223, Block => s, Group => 1, Name => francium, Period => 7, Series => AlkaliMetal, StandardName => Francium})
+# {Abbreviation => H, AtomicNumber => 1, AtomicWeight => 1.008, Block => s, Group => 1, Name => hydrogen, Period => 1, Series => Nonmetal, StandardName => Hydrogen}
+# {Abbreviation => Li, AtomicNumber => 3, AtomicWeight => 6.94, Block => s, Group => 1, Name => lithium, Period => 2, Series => AlkaliMetal, StandardName => Lithium}
+# {Abbreviation => Na, AtomicNumber => 11, AtomicWeight => 22.98976928, Block => s, Group => 1, Name => sodium, Period => 3, Series => AlkaliMetal, StandardName => Sodium}
+# {Abbreviation => K, AtomicNumber => 19, AtomicWeight => 39.0983, Block => s, Group => 1, Name => potassium, Period => 4, Series => AlkaliMetal, StandardName => Potassium}
+# {Abbreviation => Rb, AtomicNumber => 37, AtomicWeight => 85.4678, Block => s, Group => 1, Name => rubidium, Period => 5, Series => AlkaliMetal, StandardName => Rubidium}
+# {Abbreviation => Cs, AtomicNumber => 55, AtomicWeight => 132.90545196, Block => s, Group => 1, Name => cesium, Period => 6, Series => AlkaliMetal, StandardName => Cesium}
+# {Abbreviation => Fr, AtomicNumber => 87, AtomicWeight => 223, Block => s, Group => 1, Name => francium, Period => 7, Series => AlkaliMetal, StandardName => Francium}
 ```
 
 ### Element names
