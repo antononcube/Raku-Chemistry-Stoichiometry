@@ -1,5 +1,5 @@
-use lib './lib';
-use lib '.';
+use v6.d;
+
 use Chemistry::Stoichiometry;
 use Chemistry::Stoichiometry::Actions::MolecularMass;
 use Chemistry::Stoichiometry::Actions::EquationMatrix;
@@ -12,6 +12,7 @@ say "-" x 60;
 say chemical-element('Oxygen', 'Russian');
 say chemical-element(12, 'Russian');
 say chemical-element('Хлор', 'Japanese');
+say chemical-element(['Хлор', 'Кислород', 'Водород', 'Oxygen'], 'Portuguese');
 say chemical-element(['Хлор', 'Кислород', 'Водород', 'Oxygen'], 'Spanish');
 
 
