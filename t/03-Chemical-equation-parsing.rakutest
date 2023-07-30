@@ -1,0 +1,49 @@
+use Test;
+
+use lib './lib';
+use lib '.';
+
+use Chemistry::Stoichiometry;
+use Chemistry::Stoichiometry::Grammar;
+use Chemistry::Stoichiometry::Actions::MolecularMass;
+
+my $actObj =  Chemistry::Stoichiometry::Actions::MolecularMass.new;
+
+sub chem-parse($x) {
+    Chemistry::Stoichiometry::Grammar.parse($x)
+}
+
+sub chem-interpret($x, :$actions = $actObj) {
+    Chemistry::Stoichiometry::Grammar.parse($x, :$actions).made
+}
+
+my @eqs = [
+    "2S + 3O2 → 2SO3",
+    "4S + 3O2 → 2SO2 + 2SO3",
+    "6S + 6NaOH → Na2S2O3 + 3H2O"
+];
+
+my @molecules = ['Cl', 'O', '2SO3', 'Na2S2O3'];
+
+plan *;
+
+## 1
+ok @molecules.map({ chem-parse($_) }), 'parse molecules';
+
+## 2
+ok @eqs.map({ chem-parse($_) }), 'parse equations';
+
+## 3
+is-deeply
+        @molecules.map({ chem-interpret($_) }),
+        $(35.45e0, 15.999e0, 160.114e0, 158.09653856e0),
+        'molecular masses';
+
+## 4
+is-deeply
+        @eqs.map({ chem-interpret($_) }).Hash,
+        %(160.114e0 => 160.114e0, 224.234e0 => 288.23e0, 432.34061568000004e0 => 212.14153856000001e0),
+        'equation molecular masses';
+
+
+done-testing;
