@@ -17,6 +17,7 @@ role Chemistry::Stoichiometry::Grammar::ChemicalEquation {
     # General tokens
     token bond-symbol  { '-' | '=' | '#' | '$' | '/' | '\\' }
     token dot-symbol   { '.' }
+    token mult-symbol  { '*' }
     token hv-sunlight  { 'hν' | 'hv' | 'hf' }
     token number       { \d+ }
     token yield-symbol { '->' | '==' | '=' | '→' }
@@ -29,14 +30,15 @@ role Chemistry::Stoichiometry::Grammar::ChemicalEquation {
     #  rule connected    { <smr>+ }
 
     # Proper sub-grouping
-    regex molecule     { <sub-molecule>+ }
-    regex sub-molecule { <chemical-element-mult> || <chemical-element> || <group-mult> || <group> }
+    regex mult-molecule { <number>? [\h* <.mult-symbol>]? \h* <molecule> }
+    regex molecule      { <sub-molecule>+ }
+    regex sub-molecule  { <chemical-element-mult> || <chemical-element> || <group-mult> || <group> }
     regex chemical-element-mult { <chemical-element> <number> }
-    regex group        { '(' <molecule> ')' }
-    regex group-mult   { <group> <number> }
+    regex group         { '(' <molecule> ')' }
+    regex group-mult    { <group> <number> }
 
     # Chemical equation
-    regex mixture-term { <molecule> | <hv-sunlight> }
+    regex mixture-term { <mult-molecule> | <hv-sunlight> }
     regex mixture-plus { \h* '+' \h* }
     regex mixture { <mixture-term>+ % <.mixture-plus> }
     regex chemical-equation { <lhs=.mixture> \h* <.yield-symbol> \h* <rhs=.mixture> }
