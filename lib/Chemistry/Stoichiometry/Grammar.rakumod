@@ -7,6 +7,6 @@ grammar Chemistry::Stoichiometry::Grammar
         does Chemistry::Stoichiometry::Grammar::ChemicalElement
         does Chemistry::Stoichiometry::Grammar::ChemicalEquation {
     # TOP
-    rule TOP { <chemical-equation> || <molecule> }
+    rule TOP { <chemical-equation> || <mult-molecule> }
 }
 
