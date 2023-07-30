@@ -81,6 +81,11 @@ class Chemistry::Stoichiometry::Actions::EquationMatrix {
     ##========================================================
     ## Molecule
     ##========================================================
+    method mult-molecule($/) {
+        my $m = $<number> ?? $<number>.made !! 1;
+        make $<molecule>.made.map({ $_.key => $_.value * $m }).Hash;
+    }
+
     method molecule($/) {
         my %res;
         for $<sub-molecule>>>.made -> %h { %res.push(%h) };

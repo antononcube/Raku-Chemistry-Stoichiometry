@@ -31,6 +31,11 @@ class Chemistry::Stoichiometry::Actions::MolecularMass {
     ##========================================================
     ## Molecule
     ##========================================================
+    method mult-molecule($/) {
+        my $m = $<number> ?? $<number>.made !! 1;
+        make $m * $<molecule>.made;
+    }
+
     method molecule($/) {
         make $<sub-molecule>>>.made.sum;
     }
