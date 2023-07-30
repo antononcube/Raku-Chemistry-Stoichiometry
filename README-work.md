@@ -275,7 +275,7 @@ In order of importance, most important are first:
     
    - [ ] TODO For the parser-interpreter functions. E.g. `molecular-mass('FeSO4; H2O; CO2')`.
 
-6. [ ] TODO Parsing of (pre-)balanced chemical equations. 
+6. [X] DONE Parsing of (pre-)balanced chemical equations. 
    
 7. [ ] TODO Recognition of chemical compound names.
 

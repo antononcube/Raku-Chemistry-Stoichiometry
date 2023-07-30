@@ -337,26 +337,27 @@ say Chemistry::Stoichiometry::Grammar.parse( $cf );
 ```
 ```
 # ｢K4Fe(CN)6｣
-#  molecule => ｢K4Fe(CN)6｣
-#   sub-molecule => ｢K4｣
-#    chemical-element-mult => ｢K4｣
-#     chemical-element => ｢K｣
-#      K-stoichiometry => ｢K｣
-#     number => ｢4｣
-#   sub-molecule => ｢Fe｣
-#    chemical-element => ｢Fe｣
-#     Fe-stoichiometry => ｢Fe｣
-#   sub-molecule => ｢(CN)6｣
-#    group-mult => ｢(CN)6｣
-#     group => ｢(CN)｣
-#      molecule => ｢CN｣
-#       sub-molecule => ｢C｣
-#        chemical-element => ｢C｣
-#         C-stoichiometry => ｢C｣
-#       sub-molecule => ｢N｣
-#        chemical-element => ｢N｣
-#         N-stoichiometry => ｢N｣
-#     number => ｢6｣
+#  mult-molecule => ｢K4Fe(CN)6｣
+#   molecule => ｢K4Fe(CN)6｣
+#    sub-molecule => ｢K4｣
+#     chemical-element-mult => ｢K4｣
+#      chemical-element => ｢K｣
+#       K-stoichiometry => ｢K｣
+#      number => ｢4｣
+#    sub-molecule => ｢Fe｣
+#     chemical-element => ｢Fe｣
+#      Fe-stoichiometry => ｢Fe｣
+#    sub-molecule => ｢(CN)6｣
+#     group-mult => ｢(CN)6｣
+#      group => ｢(CN)｣
+#       molecule => ｢CN｣
+#        sub-molecule => ｢C｣
+#         chemical-element => ｢C｣
+#          C-stoichiometry => ｢C｣
+#        sub-molecule => ｢N｣
+#         chemical-element => ｢N｣
+#          N-stoichiometry => ｢N｣
+#      number => ｢6｣
 ```
 
 ------
@@ -388,7 +389,7 @@ In order of importance, most important are first:
     
    - [ ] TODO For the parser-interpreter functions. E.g. `molecular-mass('FeSO4; H2O; CO2')`.
 
-6. [ ] TODO Parsing of (pre-)balanced chemical equations. 
+6. [X] DONE Parsing of (pre-)balanced chemical equations. 
    
 7. [ ] TODO Recognition of chemical compound names.
 
