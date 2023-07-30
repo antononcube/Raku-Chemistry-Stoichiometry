@@ -19,8 +19,8 @@ sub chem-interpret($x, :$actions = $actObj) {
 
 my @eqs = [
     "2S + 3O2 → 2SO3",
-    "4S + 3O2 → 2SO2 + 2SO3",
-    "6S + 6NaOH → Na2S2O3 + 3H2O"
+    "6S + 6NaOH → Na2S2O3 + 3H2O",
+    "1*C2H5OH + 3*O2 -> 2*CO2 + 3*H2O",
 ];
 
 my @molecules = ['Cl', 'O', '2SO3', 'Na2S2O3'];
@@ -42,7 +42,7 @@ is-deeply
 ## 4
 is-deeply
         @eqs.map({ chem-interpret($_) }).Hash,
-        %(160.114e0 => 160.114e0, 224.234e0 => 288.23e0, 432.34061568000004e0 => 212.14153856000001e0),
+        ${"142.063" => 142.063e0, "160.114" => 160.114e0, "432.34061568000004" => 212.14153856000001e0},
         'equation molecular masses';
 
 
