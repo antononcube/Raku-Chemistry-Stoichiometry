@@ -56,6 +56,10 @@ say "-" x 60;
 
 say balance-chemical-equation( 'K4Fe(CN)6 + H2SO4 + H2O = K2SO4 + FeSO4 + (NH4)2SO4 + CO' ).raku;
 
+say "-" x 60;
+
+say balance-chemical-equation('C2H5OH + O2 = 2*H2O + CO2').raku;
+
 say "=" x 60;
 say 'Chemical formula AST';
 say "-" x 60;
