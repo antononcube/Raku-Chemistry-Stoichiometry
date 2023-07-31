@@ -30,7 +30,7 @@ role Chemistry::Stoichiometry::Grammar::ChemicalEquation {
     #  rule connected    { <smr>+ }
 
     # Proper sub-grouping
-    regex mult-molecule { <number>? [\h* <.mult-symbol>]? \h* <molecule> }
+    regex mult-molecule { [ <number> [\h* <.mult-symbol>]? \h* ]? <molecule> }
     regex molecule      { <sub-molecule>+ }
     regex sub-molecule  { <chemical-element-mult> || <chemical-element> || <group-mult> || <group> }
     regex chemical-element-mult { <chemical-element> <number> }
