@@ -48,16 +48,16 @@ class Chemistry::Stoichiometry::ResourceAccess {
         #say "Number of calls to .make $numberOfMakeCalls";
 
         #-----------------------------------------------------------
-        my $fileName = %?RESOURCES{'ElementData.csv'};
+        my $fileResource = %?RESOURCES{'ElementData.csv'};
 
         my $csv = Text::CSV.new;
-        @elementData = $csv.csv(in => $fileName.Str, headers => 'auto');
+        @elementData = $csv.csv(in => $fileResource.open, headers => 'auto');
 
         # Verify expectations
         my @expectedColumnNames = <StandardName Name Abbreviation AtomicNumber AtomicWeight Block Group Period Series>;
 
         if (@elementData[0].keys (&) @expectedColumnNames).elems < @expectedColumnNames.elems {
-            die "The CSV file $fileName does not have the expected column names: {@expectedColumnNames.join(', ')}.";
+            die "The CSV file {$fileResource.key} does not have the expected column names: {@expectedColumnNames.join(', ')}.";
         }
 
         # Convert the numerical fields into numbers.
@@ -81,13 +81,13 @@ class Chemistry::Stoichiometry::ResourceAccess {
 
         # The language list has to be derived automatically instead specified manually.
         for <Arabic Bulgarian Chinese Czech German Greek Japanese Korean Persian Polish Portuguese Russian Spanish> -> $fn {
-            my $fileName = %?RESOURCES{'ElementNames_' ~ $fn ~ '.csv'};
+            my $fileResource = %?RESOURCES{'ElementNames_' ~ $fn ~ '.csv'};
 
             my $csv = Text::CSV.new;
-            my @elementDataLocalized = $csv.csv(in => $fileName.Str, headers => 'auto');
+            my @elementDataLocalized = $csv.csv(in => $fileResource.open, headers => 'auto');
 
             if (@elementDataLocalized[0].keys (&) @expectedColumnNames).elems < @expectedColumnNames.elems {
-                die "The $fn CSV file $fileName does not have the expected column names: {@expectedColumnNames.join(', ')}.";
+                die "The $fn CSV file {$fileResource.key} does not have the expected column names: {@expectedColumnNames.join(', ')}.";
             }
 
             my %nameRules = @elementDataLocalized.map({ $_<Name>.lc => $_<StandardName> });
