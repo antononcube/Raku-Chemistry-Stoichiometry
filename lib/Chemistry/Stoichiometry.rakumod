@@ -129,30 +129,30 @@ multi chemical-element-data() {
 }
 
 multi chemical-element-data(@specs,
-                          Bool :$symbol, Bool :$abbr,
-                          Bool :$name,   Bool :$standard-name,
-                          Bool :$weight, Bool :$atomic-weight,
-                          Bool :$number, Bool :$atomic-number) {
+                            Bool :symbol(:$abbr),
+                            Bool :name(:$standard-name),
+                            Bool :weight(:$atomic-weight),
+                            Bool :number(:$atomic-number)) {
 
-    @specs.map({ chemical-element-data($_, :$symbol, :$abbr, :$name, :$standard-name, :$weight, :$atomic-weight, :$number, :$atomic-number) })
+    @specs.map({ chemical-element-data($_, :$abbr, :$standard-name, :$atomic-weight, :$atomic-number) })
 }
 
 multi chemical-element-data($spec,
-                          Bool :$symbol, Bool :$abbr,
-                          Bool :$name,   Bool :$standard-name,
-                          Bool :$weight, Bool :$atomic-weight,
-                          Bool :$number, Bool :$atomic-number) {
+                          Bool :symbol(:$abbr),
+                          Bool :name(:$standard-name),
+                          Bool :weight(:$atomic-weight),
+                          Bool :number(:$atomic-number)) {
 
     my $stdName = $resources.get-standard-name($spec);
     if not $stdName.defined { return Nil }
 
     my $data = $resources.get-element-data( $stdName );
 
-    if $symbol or $abbr             { $data<Abbreviation> }
-    elsif $name or $standard-name   { $data<StandardName> }
-    elsif $weight or $atomic-weight { $data<AtomicWeight> }
-    elsif $number or $atomic-number { $data<AtomicNumber> }
-    else                            { $data }
+    if $abbr             { $data<Abbreviation> }
+    elsif $standard-name { $data<StandardName> }
+    elsif $atomic-weight { $data<AtomicWeight> }
+    elsif $atomic-number { $data<AtomicNumber> }
+    else                 { $data }
 }
 
 #-----------------------------------------------------------
