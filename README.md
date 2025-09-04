@@ -1,6 +1,10 @@
 # Raku Chemistry::Stoichiometry
 
-[![Build Status](https://travis-ci.com/antononcube/Raku-Chemistry-Stoichiometry.svg?branch=main)](https://travis-ci.com/antononcube/Raku-Chemistry-Stoichiometry)
+[![MacOS](https://github.com/antononcube/Raku-Chemistry-Stoichiometry/actions/workflows/macos.yml/badge.svg)](https://github.com/antononcube/Raku-Chemistry-Stoichiometry/actions/workflows/macos.yml)
+[![Linux](https://github.com/antononcube/Raku-Chemistry-Stoichiometry/actions/workflows/linux.yml/badge.svg)](https://github.com/antononcube/Raku-Chemistry-Stoichiometry/actions/workflows/linux.yml)
+[![Win64](https://github.com/antononcube/Raku-Chemistry-Stoichiometry/actions/workflows/windows.yml/badge.svg)](https://github.com/antononcube/Raku-Chemistry-Stoichiometry/actions/workflows/windows.yml)
+[![https://raku.land/zef:antononcube/Chemistry::Stoichiometry](https://raku.land/zef:antononcube/Chemistry::Stoichiometry/badges/version)](https://raku.land/zef:antononcube/Chemistry::Stoichiometry)
+
 [![License: Artistic-2.0](https://img.shields.io/badge/License-Artistic%202.0-0298c3.svg)](https://opensource.org/licenses/Artistic-2.0)
 
 :bulgaria: 🇨🇳 🇨🇿 🇬🇧 🇩🇪 :greece: 🇯🇵 🇰🇷 :iran: :poland: 🇵🇹 🇷🇺 🇪🇸
