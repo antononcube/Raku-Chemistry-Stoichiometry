@@ -47,7 +47,8 @@ sub has-semicolon (Str $word) {
 #|( Convert chemical element names, abbreviations, or atomic numbers int atomic numbers.
     * C<$num> A string, an integer, or a list of strings and/or integers to be converted.
 )
-proto atomic-number(|) is export {*}
+proto atomic-number($spec #= A string, an integer, or a list of strings and/or integers to be converted.
+                    ) is export {*}
 
 multi atomic-number(@specs) {
     @specs.map({ atomic-number($_) })
@@ -61,18 +62,20 @@ multi atomic-number($spec) {
 #|( Convert chemical element names, abbreviations, or atomic numbers int atomic weights.
     * C<$num> A string, an integer, or a list of strings and/or integers to be converted.
 )
-proto atomic-weight(|) is export {*}
+proto sub atomic-weight($spec #= A string, an integer, or a list of strings and/or integers to be converted.
+                        ) is export {*}
 
-multi atomic-weight(@specs) {
+multi sub atomic-weight(@specs) {
     @specs.map({ atomic-weight($_) })
 }
 
-multi atomic-weight($spec) {
+multi sub atomic-weight($spec) {
     chemical-element-data($spec):atomic-weight
 }
 
 #-----------------------------------------------------------
-sub balance-chemical-equation(Str:D $spec ) is export {
+sub balance-chemical-equation(Str:D $spec #= Chemical equation to be balanced.
+                              ) is export {
     Chemistry::Stoichiometry::Grammar.parse($spec, actions => Chemistry::Stoichiometry::Actions::EquationBalance).made;
 }
 
@@ -80,7 +83,8 @@ sub balance-chemical-equation(Str:D $spec ) is export {
 #|( Convert chemical element names or atomic numbers into chemical element symbols (abbreviations.)
     * C<$num> A string, an integer, or a list of strings and/or integers to be converted.
 )
-proto chemical-symbol(|) is export {*}
+proto chemical-symbol($spec #= A string, an integer, or a list of strings and/or integers to be converted.
+                      ) is export {*}
 
 multi chemical-symbol(@specs) {
     @specs.map({ chemical-symbol($_) })
@@ -95,14 +99,16 @@ multi chemical-symbol($spec) {
     * C<$spec> A string, an integer, or a list of strings and/or integers to be converted.
     * C<$language> Which language the output to be in?
 )
-proto chemical-element(|) is export {*}
+proto sub chemical-element($spec, #= A string, an integer, or a list of strings and/or integers to be converted.
+                           Str:D $language = 'English', #= Which language the output to be in?
+                           ) is export {*}
 #| The first argument can be in a language other than English.
 
-multi chemical-element(@specs, Str:D $language = 'English') {
+multi sub chemical-element(@specs, Str:D $language = 'English') {
     @specs.map({ chemical-element($_, $language) })
 }
 
-multi chemical-element($spec, Str:D $language = 'English') is export {
+multi sub chemical-element($spec, Str:D $language = 'English') {
     if $language.lc eq 'english' {
         chemical-element-data($spec):standard-name
     } else {
@@ -164,9 +170,10 @@ multi sub chemical-element-data(@specs,
     * C<$specs | @specs> A string, or a list of strings.
     * C<$:p> Should the result be a list of pairs or not? (If the first argument is positional, C<@specs>.)
 )
-proto molecular-mass(|) is export {*}
+proto sub molecular-mass($spec #= A molecule formula, or a list of molecule formulas
+                     ) is export {*}
 
-multi molecular-mass(@specs, Bool :$p = False) {
+multi sub molecular-mass(@specs, Bool :$p = False) {
     if $p {
         @specs.map({ $_ => molecular-mass($_) })
     } else {
@@ -174,6 +181,6 @@ multi molecular-mass(@specs, Bool :$p = False) {
     }
 }
 
-multi molecular-mass(Str:D $spec ) is export {
+multi sub molecular-mass(Str:D $spec ) is export {
     Chemistry::Stoichiometry::Grammar.parse($spec, actions => Chemistry::Stoichiometry::Actions::MolecularMass).made;
 }
