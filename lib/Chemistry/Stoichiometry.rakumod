@@ -122,26 +122,28 @@ multi chemical-element($spec, Str:D $language = 'English') is export {
     * C<$number> Adverb to return atomic number.
     * C<$atomic-number> Adverb to return atomic number. (Same as C<$number>.)
 )
-proto chemical-element-data(|) is export {*}
+proto sub chemical-element-data(|) is export {*}
 
-multi chemical-element-data() {
+multi sub chemical-element-data() {
     $resources.get-element-data()
 }
 
-multi chemical-element-data(@specs,
-                            Bool :symbol(:$abbr),
-                            Bool :name(:$standard-name),
-                            Bool :weight(:$atomic-weight),
-                            Bool :number(:$atomic-number)) {
+multi sub chemical-element-data(@specs,
+                            Bool:D :symbol(:$abbr) = False, #= return symbol
+                            Bool:D :name(:$standard-name) = False, #= return standard name
+                            Bool:D :weight(:$atomic-weight) = False, #= return atomic weight
+                            Bool:D :number(:$atomic-number) = False, #= return atomic number
+                            ) {
 
     @specs.map({ chemical-element-data($_, :$abbr, :$standard-name, :$atomic-weight, :$atomic-number) })
 }
 
-multi chemical-element-data($spec,
-                          Bool :symbol(:$abbr),
-                          Bool :name(:$standard-name),
-                          Bool :weight(:$atomic-weight),
-                          Bool :number(:$atomic-number)) {
+multi sub chemical-element-data($spec,
+                            Bool:D :symbol(:$abbr) = False, #= return symbol
+                            Bool:D :name(:$standard-name) = False, #= return standard name
+                            Bool:D :weight(:$atomic-weight) = False, #= return atomic weight
+                            Bool:D :number(:$atomic-number) = False, #= return atomic number
+                            ) {
 
     my $stdName = $resources.get-standard-name($spec);
     if not $stdName.defined { return Nil }
