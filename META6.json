@@ -1,7 +1,7 @@
 {
   "name": "Chemistry::Stoichiometry",
   "description": "Package for Stoichiometry procedures: chemical formula parsing, chemical equations balancing. Contains relevant chemical element data. Multi-language support.",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "perl": "6.d",
   "authors": [
     "Anton Antonov"
