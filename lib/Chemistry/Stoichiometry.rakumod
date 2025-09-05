@@ -8,7 +8,10 @@ interpretation of stoichiometry formulas and equations.
 =head1 Synopsis
 
     use Chemistry::Stoichiometry;
-    my $rcode = ToStoichiometryCode('Argentina');
+    say chemical-element-data('O');
+    say chemical-element-data('O'):atomic-weight;
+    say molecular-mass('15SO2')
+    say balance-chemical-equaton('2S + 3O2 → 2SO3');
 
 =end pod
 
@@ -74,6 +77,7 @@ multi sub atomic-weight($spec) {
 }
 
 #-----------------------------------------------------------
+#| Balance a chemical equation.
 sub balance-chemical-equation(Str:D $spec #= Chemical equation to be balanced.
                               ) is export {
     Chemistry::Stoichiometry::Grammar.parse($spec, actions => Chemistry::Stoichiometry::Actions::EquationBalance).made;
