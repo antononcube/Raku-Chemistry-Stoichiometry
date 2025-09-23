@@ -14,7 +14,7 @@ sub chem-parse($x) {
 ## 1
 subtest {
     my $eq = 'Al + O2 -> Al2O3';
-    ok chem-parse($eq), 'equatino can be parsed';
+    ok chem-parse($eq), 'equation can be parsed';
     ok balance-chemical-equation($eq), 'balancing computes ok';
     my $res = balance-chemical-equation($eq).head;
     my @factors = do with $res.match(/ \d+ <?before '*'>/):g { $/».Int }
@@ -25,7 +25,7 @@ subtest {
 # Bug to be fixed!!
 subtest {
     my $eq = 'NaOH + MgCl2 = Mg(OH)2 + NaCl';
-    ok chem-parse($eq), 'equatino can be parsed';
+    ok chem-parse($eq), 'equation can be parsed';
     #nok balance-chemical-equation($eq);
 }, 'NaOH + MgCl2 = Mg(OH)2 + NaCl';
 
