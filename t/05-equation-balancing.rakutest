@@ -1,0 +1,33 @@
+use v6.d;
+use Test;
+
+use Chemistry::Stoichiometry;
+use Chemistry::Stoichiometry::Grammar;
+use Chemistry::Stoichiometry::Actions::MolecularMass;
+
+my $actObj =  Chemistry::Stoichiometry::Actions::MolecularMass.new;
+
+sub chem-parse($x) {
+    Chemistry::Stoichiometry::Grammar.parse($x)
+}
+
+sub chem-interpret($x, :$actions = $actObj) {
+    Chemistry::Stoichiometry::Grammar.parse($x, :$actions).made
+}
+
+## 1
+subtest {
+    my $eq = 'Al + O2 -> Al2O3';
+    ok chem-parse($eq);
+    ok balance-chemical-equation($eq);
+}, 'Al + O2 -> Al2O3';
+
+## 2
+# Bug to be fixed!!
+subtest {
+    my $eq = 'NaOH + MgCl2 = Mg(OH)2 + NaCl';
+    ok chem-parse($eq);
+    nok balance-chemical-equation($eq);
+}, 'NaOH + MgCl2 = Mg(OH)2 + NaCl';
+
+done-testing;
