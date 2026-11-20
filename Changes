@@ -1,0 +1,5 @@
+Changes of the Raku package "Chemistry::Stoichiometry".
+
+0.2.0 2026-11-20
+    - Refactoring: removed the package's data ingestion via "Text::CSV".
+        - Using built-in operators / subs only.
