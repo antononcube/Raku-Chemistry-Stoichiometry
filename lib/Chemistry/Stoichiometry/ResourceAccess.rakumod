@@ -1,6 +1,4 @@
 
-use Text::CSV;
-
 class Chemistry::Stoichiometry::ResourceAccess {
     ##========================================================
     ## Data
@@ -43,21 +41,32 @@ class Chemistry::Stoichiometry::ResourceAccess {
         $instance
     }
 
+    method !ingest-csv(Str:D $fileName) {
+        my $fileResource = %?RESOURCES{$fileName};
+
+        # Some row elements are numbers
+        my @tbl = slurp($fileResource.IO).lines.map({ $_.subst('"',:g).split(',') });
+
+        my @column-names = |@tbl.head;
+        @tbl.shift;
+        @tbl = @tbl.map({ @column-names Z=> $_.Array })>>.Hash;
+        return @tbl;
+    }
+
     method make() {
         $numberOfMakeCalls += 1;
         #say "Number of calls to .make $numberOfMakeCalls";
 
         #-----------------------------------------------------------
-        my $fileResource = %?RESOURCES{'ElementData.csv'};
+        my $fileResource = 'ElementData.csv';
 
-        my $csv = Text::CSV.new;
-        @elementData = $csv.csv(in => $fileResource.open, headers => 'auto');
+        @elementData = self!ingest-csv($fileResource);
 
         # Verify expectations
         my @expectedColumnNames = <StandardName Name Abbreviation AtomicNumber AtomicWeight Block Group Period Series>;
 
         if (@elementData[0].keys (&) @expectedColumnNames).elems < @expectedColumnNames.elems {
-            die "The CSV file {$fileResource.key} does not have the expected column names: {@expectedColumnNames.join(', ')}.";
+            die "The CSV file \"$fileResource\" does not have the expected column names: {@expectedColumnNames.join(', ')}.";
         }
 
         # Convert the numerical fields into numbers.
@@ -81,13 +90,12 @@ class Chemistry::Stoichiometry::ResourceAccess {
 
         # The language list has to be derived automatically instead specified manually.
         for <Arabic Bulgarian Chinese Czech German Greek Japanese Korean Persian Polish Portuguese Russian Spanish> -> $fn {
-            my $fileResource = %?RESOURCES{'ElementNames_' ~ $fn ~ '.csv'};
+            my $fileResource = 'ElementNames_' ~ $fn ~ '.csv';
 
-            my $csv = Text::CSV.new;
-            my @elementDataLocalized = $csv.csv(in => $fileResource.open, headers => 'auto');
+            my @elementDataLocalized = self!ingest-csv($fileResource);
 
             if (@elementDataLocalized[0].keys (&) @expectedColumnNames).elems < @expectedColumnNames.elems {
-                die "The $fn CSV file {$fileResource.key} does not have the expected column names: {@expectedColumnNames.join(', ')}.";
+                die "The $fn CSV file \"{$fileResource}\" does not have the expected column names: {@expectedColumnNames.join(', ')}.";
             }
 
             my %nameRules = @elementDataLocalized.map({ $_<Name>.lc => $_<StandardName> });
